@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -27,7 +28,10 @@
     <button class="hdr-btn" id="btn-orders" style="display:none" onclick="requireLogin(()=>goPage('orders'))">Orders</button>
     <button class="hdr-btn" id="btn-sell" style="display:none" onclick="requireLogin(()=>goPage('sell'))">Sell</button>
     <button class="notif-btn" id="notif-btn" style="display:none" onclick="requireLogin(openNotifs)">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+        <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+      </svg>
       <div class="notif-dot" id="notif-dot"></div>
     </button>
     <button class="hdr-btn gold" id="btn-login" onclick="openLogin()">Login</button>
@@ -81,7 +85,7 @@
   <button class="cat" onclick="filterCat(this,'Other')">Other</button>
 </div>
 
-<!-- MARKETPLACE PAGE -->
+<!-- ═══ MARKETPLACE PAGE ═══ -->
 <div class="page on" id="page-market">
   <div class="hero">
     <div class="hero-inner">
@@ -110,7 +114,7 @@
   </div>
 </div>
 
-<!-- PRODUCT DETAIL PAGE -->
+<!-- ═══ PRODUCT DETAIL PAGE ═══ -->
 <div class="page" id="page-product">
   <div class="wrap">
     <button class="back-btn" onclick="goPage('market')">← Back</button>
@@ -153,7 +157,7 @@
   </div>
 </div>
 
-<!-- SELLER DASHBOARD PAGE -->
+<!-- ═══ SELLER DASHBOARD PAGE ═══ -->
 <div class="page" id="page-sell">
   <div class="wrap">
     <div class="mob-dash-tabs">
@@ -186,13 +190,23 @@
           </div>
           <div class="fcard">
             <div class="fcard-title">Recent Orders</div>
-            <div class="tbl-wrap"><table class="tbl"><thead><tr><th>Product</th><th>Buyer</th><th>Amount</th><th>Status</th><th>Date</th></tr></thead><tbody id="s-rec-orders"></tbody></table></div>
+            <div class="tbl-wrap">
+              <table class="tbl">
+                <thead><tr><th>Product</th><th>Buyer</th><th>Amount</th><th>Status</th><th>Date</th></tr></thead>
+                <tbody id="s-rec-orders"></tbody>
+              </table>
+            </div>
           </div>
         </div>
         <div id="tab-products" style="display:none">
           <div class="fcard">
             <div class="fcard-title">My Listings</div>
-            <div class="tbl-wrap"><table class="tbl"><thead><tr><th>Product</th><th>Category</th><th>Price</th><th>Stock</th><th>Rating</th><th>Status</th><th>Actions</th></tr></thead><tbody id="s-prods-tbl"></tbody></table></div>
+            <div class="tbl-wrap">
+              <table class="tbl">
+                <thead><tr><th>Product</th><th>Category</th><th>Price</th><th>Stock</th><th>Rating</th><th>Status</th><th>Actions</th></tr></thead>
+                <tbody id="s-prods-tbl"></tbody>
+              </table>
+            </div>
           </div>
         </div>
         <div id="tab-add" style="display:none">
@@ -207,20 +221,29 @@
               <div class="ff"><label>Original Price (₹) — optional</label><input type="number" id="p-og-price" placeholder="1299"></div>
               <div class="ff"><label>Stock Quantity</label><input type="number" id="p-stock" placeholder="10" min="0"></div>
               <div class="ff"><label>Category</label>
-                <select id="p-cat"><option>Electronics</option><option>Fashion</option><option>Books</option><option>Home</option><option>Sports</option><option>Food</option><option>Art</option><option>Other</option></select>
+                <select id="p-cat">
+                  <option>Electronics</option><option>Fashion</option><option>Books</option>
+                  <option>Home</option><option>Sports</option><option>Food</option>
+                  <option>Art</option><option>Other</option>
+                </select>
               </div>
               <div class="ff full"><label>Image URL</label><input type="text" id="p-img" placeholder="https://images.unsplash.com/..."></div>
             </div>
             <button class="sub-btn" onclick="addProduct()">List Product →</button>
           </div>
-          <div class="fcard tip-card" style="padding:12px">
-            <div style="font-size:13px;color:#92400e"><strong>How to get image URL:</strong> Go to unsplash.com → search → right-click image → Copy image address → paste above.</div>
+          <div style="background:#fffbeb;border:1px solid #fde68a;border-radius:10px;padding:12px;font-size:13px;color:#92400e">
+            <strong>Tip:</strong> Go to unsplash.com → search your product → right-click image → Copy image address → paste above.
           </div>
         </div>
         <div id="tab-orders" style="display:none">
           <div class="fcard">
             <div class="fcard-title">All Orders</div>
-            <div class="tbl-wrap"><table class="tbl"><thead><tr><th>Order ID</th><th>Product</th><th>Buyer</th><th>Amount</th><th>Status</th><th>Date</th></tr></thead><tbody id="s-orders-tbl"></tbody></table></div>
+            <div class="tbl-wrap">
+              <table class="tbl">
+                <thead><tr><th>Order ID</th><th>Product</th><th>Buyer</th><th>Amount</th><th>Status</th><th>Date</th></tr></thead>
+                <tbody id="s-orders-tbl"></tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>
@@ -228,31 +251,37 @@
   </div>
 </div>
 
-<!-- MY ORDERS PAGE -->
+<!-- ═══ MY ORDERS PAGE ═══ -->
 <div class="page" id="page-orders">
   <div class="wrap">
     <div style="font-size:17px;font-weight:700;margin-bottom:14px">My Orders</div>
-    <div style="background:#fff;border-radius:14px;overflow:hidden;border:1px solid #eee" id="my-orders-list"></div>
+    <div style="background:#fff;border-radius:14px;overflow:hidden;border:1px solid #eee" id="my-orders-list">
+      <div class="empty"><h3>No orders yet</h3><p>Start shopping!</p></div>
+    </div>
   </div>
 </div>
 
-<!-- WISHLIST PAGE -->
+<!-- ═══ WISHLIST PAGE ═══ -->
 <div class="page" id="page-wishlist">
   <div class="wrap">
     <div style="font-size:17px;font-weight:700;margin-bottom:14px">My Wishlist</div>
-    <div class="wish-grid" id="wish-grid"></div>
+    <div class="wish-grid" id="wish-grid">
+      <div class="empty" style="grid-column:1/-1"><h3>Wishlist is empty</h3><p>Heart products to save them here.</p></div>
+    </div>
   </div>
 </div>
 
-<!-- TRANSACTIONS PAGE -->
+<!-- ═══ TRANSACTIONS PAGE ═══ -->
 <div class="page" id="page-txns">
   <div class="wrap">
     <div style="font-size:17px;font-weight:700;margin-bottom:14px">Transaction History</div>
-    <div style="background:#fff;border-radius:14px;overflow:hidden;border:1px solid #eee" id="txns-list"></div>
+    <div style="background:#fff;border-radius:14px;overflow:hidden;border:1px solid #eee" id="txns-list">
+      <div class="empty"><h3>No transactions yet</h3></div>
+    </div>
   </div>
 </div>
 
-<!-- BECOME SELLER PAGE -->
+<!-- ═══ BECOME SELLER PAGE ═══ -->
 <div class="page" id="page-become-seller">
   <div class="wrap" style="max-width:480px">
     <div class="fcard">
@@ -266,7 +295,7 @@
   </div>
 </div>
 
-<!-- CREATE ACCOUNT PAGE -->
+<!-- ═══ CREATE ACCOUNT PAGE ═══ -->
 <div class="page" id="page-create-account">
   <div class="create-acc-wrap">
     <button class="back-btn" onclick="goPage('market')">← Back to Market</button>
@@ -305,7 +334,8 @@
         <div style="background:#fffbeb;border:1px solid #fde68a;border-radius:10px;padding:12px;margin-bottom:14px;font-size:13px;color:#92400e">
           You'll get <strong>₹10,000</strong> free starter balance!
         </div>
-        <div class="ff"><label>Account Number</label>
+        <div class="ff">
+          <label>Account Number</label>
           <input type="text" id="ca-accno" placeholder="e.g. MYACC01" style="text-transform:uppercase" maxlength="10" oninput="this.value=this.value.toUpperCase()">
           <div style="font-size:11px;color:#888;margin-top:3px">4–10 characters, letters and numbers only</div>
         </div>
@@ -322,7 +352,10 @@
       <div class="fcard" style="text-align:center">
         <div style="font-size:50px;margin-bottom:12px">🎉</div>
         <div style="font-size:20px;font-weight:900;margin-bottom:6px">Account Created!</div>
-        <div style="font-size:14px;color:#666;margin-bottom:16px;line-height:1.6">Welcome to Abhinav's Market!<br>Your ZeroBank account is ready with <strong style="color:#16a34a">₹10,000</strong> starter balance.</div>
+        <div style="font-size:14px;color:#666;margin-bottom:16px;line-height:1.6">
+          Welcome to Abhinav's Market!<br>
+          Your ZeroBank account is ready with <strong style="color:#16a34a">₹10,000</strong> starter balance.
+        </div>
         <div style="background:#f8f8f6;border-radius:10px;padding:14px;margin-bottom:18px;text-align:left">
           <div style="font-size:11px;color:#888;margin-bottom:8px;font-weight:700;text-transform:uppercase">Your Account Details</div>
           <div style="font-size:14px;font-weight:600;margin-bottom:4px">Account: <span id="ca-done-acc" style="font-family:monospace;color:#f59e0b">-</span></div>
@@ -334,6 +367,8 @@
     </div>
   </div>
 </div>
+
+<!-- ═══════════ MODALS ═══════════ -->
 
 <!-- LOGIN MODAL -->
 <div class="overlay" id="ov-login">
@@ -451,7 +486,11 @@
         <div class="merr" id="pay-err"></div>
         <button class="mbtn gold" id="pay-btn" onclick="confirmPay()">Pay Now</button>
       </div>
-      <div class="proc" id="pay-proc"><div class="spin"></div><h3 style="font-size:15px;font-weight:700;margin-bottom:4px">Processing...</h3><p style="font-size:12px;color:#888">Please wait</p></div>
+      <div class="proc" id="pay-proc">
+        <div class="spin"></div>
+        <h3 style="font-size:15px;font-weight:700;margin-bottom:4px">Processing...</h3>
+        <p style="font-size:12px;color:#888">Please wait</p>
+      </div>
       <div class="suc" id="pay-suc">
         <div class="chk">✓</div>
         <h3 style="font-size:18px;font-weight:900;margin-bottom:6px">Payment Successful!</h3>
@@ -481,8 +520,10 @@
       <div class="mfield">
         <label>Your Rating</label>
         <div class="star-input" id="star-input">
-          <span onclick="setRating(1)">★</span><span onclick="setRating(2)">★</span>
-          <span onclick="setRating(3)">★</span><span onclick="setRating(4)">★</span>
+          <span onclick="setRating(1)">★</span>
+          <span onclick="setRating(2)">★</span>
+          <span onclick="setRating(3)">★</span>
+          <span onclick="setRating(4)">★</span>
           <span onclick="setRating(5)">★</span>
         </div>
       </div>
@@ -556,7 +597,7 @@
 
 <footer>© 2026 Abhinav's Market · Powered by ZeroBank (Simulated)</footer>
 
-<!-- JS — order matters! -->
+<!-- JS — ORDER MATTERS -->
 <script src="js/config.js"></script>
 <script src="js/db.js"></script>
 <script src="js/utils.js"></script>
