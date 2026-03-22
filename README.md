@@ -8,8 +8,8 @@ A simulated marketplace with a fake banking system built using vanilla HTML/CSS/
 
 ## 🌐 Live Site
 
-[abhinavs-market.vercel.app]([https://ghost-store-seven.vercel.app](https://ghost-store-seven.vercel.app/))
-
+https://ghost-store-seven.vercel.app/
+[abhinavs-market.vercel.app](https://ghost-store-seven.vercel.app/)
 ---
 
 ## 🛠️ Built With
