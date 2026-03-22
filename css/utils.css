@@ -1,1 +1,5 @@
-
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#1a1a1a;color:#fff;padding:10px 20px;border-radius:10px;font-size:13px;z-index:999;opacity:0;transition:opacity .25s;pointer-events:none;white-space:nowrap;max-width:90vw;overflow:hidden;text-overflow:ellipsis}
+.toast.on{opacity:1}
+.empty{text-align:center;padding:40px 20px;color:#888}
+.empty h3{font-size:15px;font-weight:700;margin-bottom:5px;color:#1a1a1a}
+.empty p{font-size:13px}
