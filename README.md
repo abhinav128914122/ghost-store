@@ -89,4 +89,4 @@ All PINs are **1234**
 
 ## 👨‍💻 Made By
 
-**Abhinav** — built in a single day with guidance from Claude AI.
+**Abhinav** — built with guidance from Claude AI.
