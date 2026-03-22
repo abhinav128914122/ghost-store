@@ -1,40 +1,574 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Abhinav's Market</title>
-
-  <!-- CSS -->
-  <link rel="stylesheet" href="css/base.css">
-  <link rel="stylesheet" href="css/header.css">
-  <link rel="stylesheet" href="css/marketplace.css">
-  <link rel="stylesheet" href="css/product.css">
-  <link rel="stylesheet" href="css/dashboard.css">
-  <link rel="stylesheet" href="css/modals.css">
-  <link rel="stylesheet" href="css/utils.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Abhinav's Market — Buy & Sell Anything</title>
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/header.css">
+<link rel="stylesheet" href="css/marketplace.css">
+<link rel="stylesheet" href="css/product.css">
+<link rel="stylesheet" href="css/dashboard.css">
+<link rel="stylesheet" href="css/modals.css">
+<link rel="stylesheet" href="css/utils.css">
 </head>
 <body>
 
-  <!-- Header -->
-  <!-- Pages -->
-  <!-- Modals -->
-  <!-- Toast -->
+<!-- HEADER -->
+<div class="hdr">
+  <div class="logo" onclick="goPage('market')">Abhinav's <span>Market</span></div>
+  <div class="search-wrap">
+    <input type="text" id="si" placeholder="Search products..." onkeydown="if(event.key==='Enter')doSearch()">
+    <button onclick="doSearch()">Search</button>
+  </div>
+  <div class="hdr-right">
+    <button class="hdr-btn" onclick="goPage('market')">Shop</button>
+    <button class="hdr-btn" id="btn-wishlist" style="display:none" onclick="requireLogin(()=>goPage('wishlist'))">Wishlist</button>
+    <button class="hdr-btn" id="btn-orders" style="display:none" onclick="requireLogin(()=>goPage('orders'))">Orders</button>
+    <button class="hdr-btn" id="btn-sell" style="display:none" onclick="requireLogin(()=>goPage('sell'))">Sell</button>
+    <button class="notif-btn" id="notif-btn" style="display:none" onclick="requireLogin(openNotifs)">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+      <div class="notif-dot" id="notif-dot"></div>
+    </button>
+    <button class="hdr-btn gold" id="btn-login" onclick="openLogin()">Login</button>
+    <div class="upill" id="upill" style="display:none" onclick="openUserMenu()">
+      <div class="av" id="u-av">?</div>
+      <span id="u-name">-</span>
+    </div>
+  </div>
+</div>
 
-  <!-- JS (order matters!) -->
-  <script src="js/config.js"></script>
-  <script src="js/db.js"></script>
-  <script src="js/utils.js"></script>
-  <script src="js/auth.js"></script>
-  <script src="js/marketplace.js"></script>
-  <script src="js/product.js"></script>
-  <script src="js/payment.js"></script>
-  <script src="js/seller.js"></script>
-  <script src="js/account.js"></script>
-  <script src="js/wishlist.js"></script>
+<!-- MOBILE SEARCH -->
+<div class="mob-search-bar">
+  <input type="text" id="si2" placeholder="Search products..." onkeydown="if(event.key==='Enter')doSearch2()">
+  <button onclick="doSearch2()">Go</button>
+</div>
 
-  <script>
-    loadProducts(); // init
-  </script>
+<!-- BOTTOM NAV -->
+<nav class="bnav">
+  <button class="bni on" id="bn-market" onclick="goPage('market');setBN('market')">
+    <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    <span>Home</span>
+  </button>
+  <button class="bni" id="bn-wishlist" onclick="requireLogin(()=>{goPage('wishlist');setBN('wishlist')})">
+    <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+    <span>Wishlist</span>
+  </button>
+  <button class="bni" id="bn-orders" onclick="requireLogin(()=>{goPage('orders');setBN('orders')})">
+    <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+    <span>Orders</span>
+  </button>
+  <button class="bni" id="bn-sell" onclick="requireLogin(()=>{goPage('sell');setBN('sell')})">
+    <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+    <span>Sell</span>
+  </button>
+  <button class="bni" id="bn-account" onclick="S.user?openUserMenu():openLogin()">
+    <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    <span>Account</span>
+  </button>
+</nav>
+
+<!-- CATEGORY BAR -->
+<div class="catbar">
+  <button class="cat on" onclick="filterCat(this,'All')">All</button>
+  <button class="cat" onclick="filterCat(this,'Electronics')">Electronics</button>
+  <button class="cat" onclick="filterCat(this,'Fashion')">Fashion</button>
+  <button class="cat" onclick="filterCat(this,'Books')">Books</button>
+  <button class="cat" onclick="filterCat(this,'Home')">Home</button>
+  <button class="cat" onclick="filterCat(this,'Sports')">Sports</button>
+  <button class="cat" onclick="filterCat(this,'Food')">Food</button>
+  <button class="cat" onclick="filterCat(this,'Art')">Art</button>
+  <button class="cat" onclick="filterCat(this,'Other')">Other</button>
+</div>
+
+<!-- MARKETPLACE PAGE -->
+<div class="page on" id="page-market">
+  <div class="hero">
+    <div class="hero-inner">
+      <h2>Welcome to <span>Abhinav's Market</span></h2>
+      <p>Buy from real sellers · Pay with ZeroBank · No real money needed</p>
+      <div class="hero-btns">
+        <button class="hero-btn y" onclick="document.querySelector('.pgrid').scrollIntoView({behavior:'smooth'})">Shop Now</button>
+        <button class="hero-btn w" onclick="openCreateAccount()">Create Free Account</button>
+      </div>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="sort-bar">
+      <div class="prod-count" id="market-count"></div>
+      <select id="sort-sel" onchange="renderProducts()">
+        <option value="newest">Newest First</option>
+        <option value="price-asc">Price: Low to High</option>
+        <option value="price-desc">Price: High to Low</option>
+        <option value="rating">Top Rated</option>
+        <option value="popular">Most Popular</option>
+      </select>
+    </div>
+    <div class="pgrid" id="product-grid">
+      <div class="empty" style="grid-column:1/-1"><h3>Loading products...</h3></div>
+    </div>
+  </div>
+</div>
+
+<!-- PRODUCT DETAIL PAGE -->
+<div class="page" id="page-product">
+  <div class="wrap">
+    <button class="back-btn" onclick="goPage('market')">← Back</button>
+    <div class="det-grid">
+      <div><img class="det-img" id="det-img" src="" alt=""></div>
+      <div>
+        <div id="det-badge"></div>
+        <div class="det-name" id="det-name">-</div>
+        <div style="display:flex;align-items:center;gap:6px;margin-bottom:10px">
+          <span class="stars" id="det-stars"></span>
+          <span style="font-size:12px;color:#888" id="det-rcount"></span>
+        </div>
+        <div class="det-price-row">
+          <span class="det-price" id="det-price">-</span>
+          <span class="det-og-price" id="det-og-price" style="display:none"></span>
+          <span class="det-discount" id="det-discount" style="display:none"></span>
+        </div>
+        <div class="seller-box" onclick="openSellerProfile()">
+          <div class="av" style="width:36px;height:36px;font-size:14px" id="det-seller-av">-</div>
+          <div>
+            <div style="font-size:13px;font-weight:700" id="det-seller-name">-</div>
+            <div style="font-size:11px;color:#888" id="det-seller-bio">-</div>
+          </div>
+        </div>
+        <div id="det-stock-badge"></div>
+        <div class="det-desc" id="det-desc">-</div>
+        <button class="buy-btn-big" id="det-buy-btn" onclick="buyCurrentProduct()">Buy Now — Pay with ZeroBank</button>
+        <button class="wish-btn-big" id="det-wish-btn" onclick="toggleWishlistCurrent()">♡ Add to Wishlist</button>
+        <div style="font-size:11px;color:#aaa;text-align:center;margin-top:6px">Simulated payment · No real money</div>
+      </div>
+    </div>
+    <div class="rev-sec">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+        <div style="font-size:16px;font-weight:700">Reviews</div>
+        <button class="write-rev-btn" onclick="requireLogin(openReviewModal)">Write Review</button>
+      </div>
+      <div class="rev-summary" id="rev-summary" style="display:none"></div>
+      <div id="reviews-list"><div class="empty"><p>No reviews yet.</p></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- SELLER DASHBOARD PAGE -->
+<div class="page" id="page-sell">
+  <div class="wrap">
+    <div class="mob-dash-tabs">
+      <button class="mdt on" onclick="sellerTab('overview')">Overview</button>
+      <button class="mdt" onclick="sellerTab('products')">Products</button>
+      <button class="mdt" onclick="sellerTab('add')">+ Add</button>
+      <button class="mdt" onclick="sellerTab('orders')">Orders</button>
+    </div>
+    <div class="dash">
+      <div class="sidebar">
+        <div class="sb-head">
+          <h4 id="sb-store-name">My Store</h4>
+          <p id="sb-role-lbl">Seller</p>
+        </div>
+        <hr class="sb-div">
+        <button class="sb-item on" id="sb-overview" onclick="sellerTab('overview')">Overview</button>
+        <button class="sb-item" id="sb-products" onclick="sellerTab('products')">My Products</button>
+        <button class="sb-item" id="sb-add" onclick="sellerTab('add')">+ Add Product</button>
+        <button class="sb-item" id="sb-orders" onclick="sellerTab('orders')">Orders</button>
+        <hr class="sb-div">
+        <button class="sb-item" onclick="goPage('market')">← Back to Market</button>
+      </div>
+      <div>
+        <div id="tab-overview">
+          <div class="stats">
+            <div class="stat"><div class="stat-lbl">Revenue</div><div class="stat-val" id="st-rev">₹0</div></div>
+            <div class="stat"><div class="stat-lbl">Orders</div><div class="stat-val" id="st-orders">0</div></div>
+            <div class="stat"><div class="stat-lbl">Products</div><div class="stat-val" id="st-prods">0</div></div>
+            <div class="stat"><div class="stat-lbl">Balance</div><div class="stat-val" id="st-bal">₹0</div></div>
+          </div>
+          <div class="fcard">
+            <div class="fcard-title">Recent Orders</div>
+            <div class="tbl-wrap"><table class="tbl"><thead><tr><th>Product</th><th>Buyer</th><th>Amount</th><th>Status</th><th>Date</th></tr></thead><tbody id="s-rec-orders"></tbody></table></div>
+          </div>
+        </div>
+        <div id="tab-products" style="display:none">
+          <div class="fcard">
+            <div class="fcard-title">My Listings</div>
+            <div class="tbl-wrap"><table class="tbl"><thead><tr><th>Product</th><th>Category</th><th>Price</th><th>Stock</th><th>Rating</th><th>Status</th><th>Actions</th></tr></thead><tbody id="s-prods-tbl"></tbody></table></div>
+          </div>
+        </div>
+        <div id="tab-add" style="display:none">
+          <div class="fcard">
+            <div class="fcard-title">List a New Product</div>
+            <div class="ok-msg" id="add-ok">Product listed successfully!</div>
+            <div class="err-msg" id="add-err"></div>
+            <div class="fgrid">
+              <div class="ff full"><label>Product Name</label><input type="text" id="p-name" placeholder="e.g. Wireless Headphones"></div>
+              <div class="ff full"><label>Description</label><textarea id="p-desc" placeholder="Describe your product..."></textarea></div>
+              <div class="ff"><label>Price (₹)</label><input type="number" id="p-price" placeholder="999" min="1"></div>
+              <div class="ff"><label>Original Price (₹) — optional</label><input type="number" id="p-og-price" placeholder="1299"></div>
+              <div class="ff"><label>Stock Quantity</label><input type="number" id="p-stock" placeholder="10" min="0"></div>
+              <div class="ff"><label>Category</label>
+                <select id="p-cat"><option>Electronics</option><option>Fashion</option><option>Books</option><option>Home</option><option>Sports</option><option>Food</option><option>Art</option><option>Other</option></select>
+              </div>
+              <div class="ff full"><label>Image URL</label><input type="text" id="p-img" placeholder="https://images.unsplash.com/..."></div>
+            </div>
+            <button class="sub-btn" onclick="addProduct()">List Product →</button>
+          </div>
+          <div class="fcard tip-card" style="padding:12px">
+            <div style="font-size:13px;color:#92400e"><strong>How to get image URL:</strong> Go to unsplash.com → search → right-click image → Copy image address → paste above.</div>
+          </div>
+        </div>
+        <div id="tab-orders" style="display:none">
+          <div class="fcard">
+            <div class="fcard-title">All Orders</div>
+            <div class="tbl-wrap"><table class="tbl"><thead><tr><th>Order ID</th><th>Product</th><th>Buyer</th><th>Amount</th><th>Status</th><th>Date</th></tr></thead><tbody id="s-orders-tbl"></tbody></table></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MY ORDERS PAGE -->
+<div class="page" id="page-orders">
+  <div class="wrap">
+    <div style="font-size:17px;font-weight:700;margin-bottom:14px">My Orders</div>
+    <div style="background:#fff;border-radius:14px;overflow:hidden;border:1px solid #eee" id="my-orders-list"></div>
+  </div>
+</div>
+
+<!-- WISHLIST PAGE -->
+<div class="page" id="page-wishlist">
+  <div class="wrap">
+    <div style="font-size:17px;font-weight:700;margin-bottom:14px">My Wishlist</div>
+    <div class="wish-grid" id="wish-grid"></div>
+  </div>
+</div>
+
+<!-- TRANSACTIONS PAGE -->
+<div class="page" id="page-txns">
+  <div class="wrap">
+    <div style="font-size:17px;font-weight:700;margin-bottom:14px">Transaction History</div>
+    <div style="background:#fff;border-radius:14px;overflow:hidden;border:1px solid #eee" id="txns-list"></div>
+  </div>
+</div>
+
+<!-- BECOME SELLER PAGE -->
+<div class="page" id="page-become-seller">
+  <div class="wrap" style="max-width:480px">
+    <div class="fcard">
+      <div class="fcard-title">Open Your Store</div>
+      <div class="ok-msg" id="seller-ok">Store created! Redirecting...</div>
+      <div class="err-msg" id="seller-err"></div>
+      <div class="ff"><label>Store Name</label><input type="text" id="ns-name" placeholder="e.g. My Tech Store"></div>
+      <div class="ff"><label>Store Description</label><textarea id="ns-bio" placeholder="Tell buyers what you sell..."></textarea></div>
+      <button class="sub-btn" onclick="registerSeller()">Launch My Store →</button>
+    </div>
+  </div>
+</div>
+
+<!-- CREATE ACCOUNT PAGE -->
+<div class="page" id="page-create-account">
+  <div class="create-acc-wrap">
+    <button class="back-btn" onclick="goPage('market')">← Back to Market</button>
+    <div style="margin-bottom:20px">
+      <div style="font-size:22px;font-weight:900;margin-bottom:4px">Create Your Account</div>
+      <div style="font-size:13px;color:#888">Join Abhinav's Market — get ₹10,000 free starter balance!</div>
+    </div>
+    <div class="create-steps">
+      <div class="cstep on" id="cs1"><div class="cstep-num">1</div><div class="cstep-lbl">Details</div></div>
+      <div class="cstep" id="cs2"><div class="cstep-num">2</div><div class="cstep-lbl">Account</div></div>
+      <div class="cstep" id="cs3"><div class="cstep-num">3</div><div class="cstep-lbl">Done!</div></div>
+    </div>
+    <div id="ca-step1">
+      <div class="fcard">
+        <div class="fcard-title">Personal Details</div>
+        <div class="ff"><label>Full Name</label><input type="text" id="ca-name" placeholder="e.g. Rahul Sharma"></div>
+        <div class="ff"><label>Email (optional)</label><input type="email" id="ca-email" placeholder="rahul@email.com"></div>
+        <div class="ff"><label>I want to join as</label>
+          <select id="ca-role">
+            <option value="buyer">Buyer — I want to shop</option>
+            <option value="seller">Seller — I want to sell</option>
+            <option value="both">Both — Buy and sell</option>
+          </select>
+        </div>
+        <div id="ca-store-fields" style="display:none">
+          <div class="ff"><label>Store Name</label><input type="text" id="ca-store-name" placeholder="My Awesome Store"></div>
+          <div class="ff"><label>Store Bio</label><input type="text" id="ca-store-bio" placeholder="What will you sell?"></div>
+        </div>
+        <div class="err-msg" id="ca-err1"></div>
+        <button class="sub-btn" onclick="caNext1()">Continue →</button>
+      </div>
+    </div>
+    <div id="ca-step2" style="display:none">
+      <div class="fcard">
+        <div class="fcard-title">Set Up ZeroBank Account</div>
+        <div style="background:#fffbeb;border:1px solid #fde68a;border-radius:10px;padding:12px;margin-bottom:14px;font-size:13px;color:#92400e">
+          You'll get <strong>₹10,000</strong> free starter balance!
+        </div>
+        <div class="ff"><label>Account Number</label>
+          <input type="text" id="ca-accno" placeholder="e.g. MYACC01" style="text-transform:uppercase" maxlength="10" oninput="this.value=this.value.toUpperCase()">
+          <div style="font-size:11px;color:#888;margin-top:3px">4–10 characters, letters and numbers only</div>
+        </div>
+        <div class="ff"><label>Set PIN (4 digits)</label><input type="password" id="ca-pin" placeholder="••••" maxlength="4" inputmode="numeric"></div>
+        <div class="ff"><label>Confirm PIN</label><input type="password" id="ca-pin2" placeholder="••••" maxlength="4" inputmode="numeric"></div>
+        <div class="err-msg" id="ca-err2"></div>
+        <div style="display:flex;gap:8px">
+          <button class="sub-btn" style="background:#f8f8f6;color:#1a1a1a;border:1.5px solid #eee" onclick="caBack()">← Back</button>
+          <button class="sub-btn" style="flex:1" onclick="caCreate()">Create Account →</button>
+        </div>
+      </div>
+    </div>
+    <div id="ca-step3" style="display:none">
+      <div class="fcard" style="text-align:center">
+        <div style="font-size:50px;margin-bottom:12px">🎉</div>
+        <div style="font-size:20px;font-weight:900;margin-bottom:6px">Account Created!</div>
+        <div style="font-size:14px;color:#666;margin-bottom:16px;line-height:1.6">Welcome to Abhinav's Market!<br>Your ZeroBank account is ready with <strong style="color:#16a34a">₹10,000</strong> starter balance.</div>
+        <div style="background:#f8f8f6;border-radius:10px;padding:14px;margin-bottom:18px;text-align:left">
+          <div style="font-size:11px;color:#888;margin-bottom:8px;font-weight:700;text-transform:uppercase">Your Account Details</div>
+          <div style="font-size:14px;font-weight:600;margin-bottom:4px">Account: <span id="ca-done-acc" style="font-family:monospace;color:#f59e0b">-</span></div>
+          <div style="font-size:14px;font-weight:600;margin-bottom:4px">Name: <span id="ca-done-name">-</span></div>
+          <div style="font-size:14px;font-weight:600">Balance: <span style="color:#16a34a">₹10,000</span></div>
+        </div>
+        <button class="sub-btn" style="width:100%;padding:13px" onclick="caLoginNow()">Login Now →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- LOGIN MODAL -->
+<div class="overlay" id="ov-login">
+  <div class="modal">
+    <div class="drag-handle" onclick="closeOv('ov-login')"></div>
+    <div class="mhdr"><h3>Login to ZeroBank</h3><button class="xbtn" onclick="closeOv('ov-login')">×</button></div>
+    <div class="mbody">
+      <div class="bank-hdr">
+        <div class="bank-logo">AM</div>
+        <h4>Abhinav's Market Bank</h4>
+        <p>Simulated banking · No real money</p>
+      </div>
+      <div class="acc-panel">
+        <div class="lbl">Demo buyers (PIN: 1234)</div>
+        <span class="chip" onclick="fillAcc('ZERO001')">ZERO001 · Abhinav</span>
+        <span class="chip" onclick="fillAcc('ZERO002')">ZERO002 · Vyomi</span>
+        <span class="chip" onclick="fillAcc('ZERO003')">ZERO003 · Vaibhav</span>
+        <span class="chip" onclick="fillAcc('ZERO004')">ZERO004 · Navya</span>
+        <div class="lbl" style="margin-top:8px">Demo sellers (PIN: 1234)</div>
+        <span class="chip" onclick="fillAcc('SELLER1')">SELLER1 · TechWorld</span>
+        <span class="chip" onclick="fillAcc('SELLER2')">SELLER2 · FashionHub</span>
+        <span class="chip" onclick="fillAcc('SELLER3')">SELLER3 · BookNest</span>
+      </div>
+      <div class="merr" id="login-err"></div>
+      <div class="mfield"><label>Account Number</label><input type="text" id="l-acc" placeholder="e.g. ZERO001" oninput="this.value=this.value.toUpperCase()"></div>
+      <div class="mfield"><label>PIN</label><input type="password" id="l-pin" placeholder="••••" maxlength="4" onkeydown="if(event.key==='Enter')doLogin()"></div>
+      <button class="mbtn" onclick="doLogin()">Login →</button>
+      <div class="divider"><span></span><p>Don't have an account?</p><span></span></div>
+      <button class="mbtn outline" onclick="closeOv('ov-login');openCreateAccount()">Create Free Account</button>
+    </div>
+  </div>
+</div>
+
+<!-- ROLE MODAL -->
+<div class="overlay" id="ov-role">
+  <div class="modal">
+    <div class="drag-handle"></div>
+    <div class="mhdr"><h3>Choose Your Role</h3><button class="xbtn" onclick="closeOv('ov-role')">×</button></div>
+    <div class="mbody">
+      <p style="font-size:13px;color:#666;margin-bottom:14px">How will you use Abhinav's Market?</p>
+      <div class="role-grid">
+        <div class="role-card on" id="rc-buyer" onclick="selRole('buyer')"><div class="ri">🛒</div><h5>Buyer</h5><p>Browse & shop</p></div>
+        <div class="role-card" id="rc-seller" onclick="selRole('seller')"><div class="ri">🏪</div><h5>Seller</h5><p>List & earn</p></div>
+      </div>
+      <div id="role-seller-fields" style="display:none">
+        <div class="mfield"><label>Store Name</label><input type="text" id="r-sname" placeholder="My Awesome Store"></div>
+        <div class="mfield"><label>Store Bio</label><input type="text" id="r-sbio" placeholder="What do you sell?"></div>
+      </div>
+      <button class="mbtn" onclick="saveRole()">Continue →</button>
+    </div>
+  </div>
+</div>
+
+<!-- USER MENU MODAL -->
+<div class="overlay" id="ov-user">
+  <div class="modal">
+    <div class="drag-handle" onclick="closeOv('ov-user')"></div>
+    <div class="mhdr"><h3>My Account</h3><button class="xbtn" onclick="closeOv('ov-user')">×</button></div>
+    <div class="mbody">
+      <div style="display:flex;align-items:center;gap:12px;padding:14px;background:#f8f8f6;border-radius:12px;margin-bottom:14px">
+        <div class="av" style="width:46px;height:46px;font-size:16px" id="menu-av">?</div>
+        <div>
+          <div style="font-weight:700;font-size:15px" id="menu-name">-</div>
+          <div style="font-size:12px;color:#888" id="menu-acc">-</div>
+          <div style="font-size:14px;color:#16a34a;font-weight:800" id="menu-bal">₹0</div>
+        </div>
+        <button class="mbtn gold" style="width:auto;padding:7px 14px;font-size:12px;margin:0 0 0 auto" onclick="closeOv('ov-user');openTopup()">Top Up</button>
+      </div>
+      <div id="menu-store-box" style="display:none;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;padding:11px;margin-bottom:14px;font-size:13px">
+        <div style="font-weight:700;color:#16a34a;font-size:11px;text-transform:uppercase;margin-bottom:3px">Your Store</div>
+        <div id="menu-store-name" style="font-weight:600"></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px">
+        <button class="mbtn outline" style="padding:10px" onclick="closeOv('ov-user');requireLogin(()=>goPage('orders'))">My Orders</button>
+        <button class="mbtn outline" style="padding:10px" onclick="closeOv('ov-user');requireLogin(()=>goPage('wishlist'))">Wishlist</button>
+        <button class="mbtn outline" style="padding:10px" onclick="closeOv('ov-user');requireLogin(()=>goPage('txns'))">Transactions</button>
+        <button class="mbtn outline" style="padding:10px" onclick="closeOv('ov-user');openNotifs()">Notifications</button>
+      </div>
+      <button class="mbtn gold" style="margin-bottom:8px" onclick="closeOv('ov-user');openBecomeSeller()">Open / Go to Store</button>
+      <button class="mbtn" style="background:#f8f8f6;color:#1a1a1a;border:1.5px solid #eee" onclick="doLogout()">Logout</button>
+    </div>
+  </div>
+</div>
+
+<!-- PAYMENT MODAL -->
+<div class="overlay" id="ov-pay">
+  <div class="modal">
+    <div class="drag-handle" onclick="closeOv('ov-pay')"></div>
+    <div class="mhdr"><h3>Confirm Payment</h3><button class="xbtn" onclick="closeOv('ov-pay')">×</button></div>
+    <div class="mbody">
+      <div id="pay-confirm">
+        <div class="ord-sum">
+          <div class="ord-row"><span>Product</span><span id="pay-pname">-</span></div>
+          <div class="ord-row"><span>Seller</span><span id="pay-seller">-</span></div>
+          <div class="ord-row"><span>Shipping</span><span>Free</span></div>
+          <div class="ord-row" id="pay-disc-row" style="display:none"><span>Coupon Discount</span><span id="pay-disc-amt" style="color:#16a34a">-</span></div>
+          <div class="ord-row tot"><span>Total</span><span id="pay-total">₹0</span></div>
+        </div>
+        <div class="acc-info">
+          <div class="ai-lbl">Paying from</div>
+          <div class="ai-name" id="pay-acc-name">-</div>
+          <div class="ai-bal" id="pay-acc-bal">-</div>
+        </div>
+        <div class="insuf" id="pay-insuf">Insufficient balance. Please top up your account.</div>
+        <div style="margin-bottom:8px;font-size:12px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.4px">Got a Coupon?</div>
+        <div class="coupon-row">
+          <input type="text" id="coupon-input" placeholder="e.g. WELCOME10" oninput="this.value=this.value.toUpperCase()">
+          <button onclick="applyCoupon()">Apply</button>
+        </div>
+        <div class="coupon-ok" id="coupon-ok"></div>
+        <div class="pin-wrap">
+          <label>Enter PIN to confirm</label>
+          <input type="password" id="pay-pin" maxlength="4" placeholder="••••" inputmode="numeric" onkeydown="if(event.key==='Enter')confirmPay()">
+        </div>
+        <div class="merr" id="pay-err"></div>
+        <button class="mbtn gold" id="pay-btn" onclick="confirmPay()">Pay Now</button>
+      </div>
+      <div class="proc" id="pay-proc"><div class="spin"></div><h3 style="font-size:15px;font-weight:700;margin-bottom:4px">Processing...</h3><p style="font-size:12px;color:#888">Please wait</p></div>
+      <div class="suc" id="pay-suc">
+        <div class="chk">✓</div>
+        <h3 style="font-size:18px;font-weight:900;margin-bottom:6px">Payment Successful!</h3>
+        <p style="font-size:13px;color:#666;margin-bottom:4px">Order confirmed. Seller notified automatically.</p>
+        <div class="txn-box">
+          <div class="txn-row"><span>Order ID</span><span id="s-oid">-</span></div>
+          <div class="txn-row"><span>Product</span><span id="s-prod">-</span></div>
+          <div class="txn-row"><span>Amount Paid</span><span id="s-amt">-</span></div>
+          <div class="txn-row"><span>From</span><span id="s-from">-</span></div>
+          <div class="txn-row"><span>To</span><span id="s-to">-</span></div>
+          <div class="txn-row"><span>Time</span><span id="s-time">-</span></div>
+        </div>
+        <div class="new-bal" id="s-newbal"></div>
+        <button class="mbtn" style="margin-top:13px" onclick="closeOv('ov-pay')">Done</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- REVIEW MODAL -->
+<div class="overlay" id="ov-review">
+  <div class="modal">
+    <div class="drag-handle"></div>
+    <div class="mhdr"><h3>Write a Review</h3><button class="xbtn" onclick="closeOv('ov-review')">×</button></div>
+    <div class="mbody">
+      <div style="font-size:14px;font-weight:600;margin-bottom:12px" id="rev-prod-name">-</div>
+      <div class="mfield">
+        <label>Your Rating</label>
+        <div class="star-input" id="star-input">
+          <span onclick="setRating(1)">★</span><span onclick="setRating(2)">★</span>
+          <span onclick="setRating(3)">★</span><span onclick="setRating(4)">★</span>
+          <span onclick="setRating(5)">★</span>
+        </div>
+      </div>
+      <div class="mfield">
+        <label>Your Review</label>
+        <textarea id="rev-text" placeholder="Share your honest experience..." style="width:100%;padding:9px 11px;border:1.5px solid #eee;border-radius:8px;font-size:13px;outline:none;font-family:inherit;resize:vertical;min-height:80px"></textarea>
+      </div>
+      <div class="merr" id="rev-err"></div>
+      <button class="mbtn" onclick="submitReview()">Submit Review →</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOPUP MODAL -->
+<div class="overlay" id="ov-topup">
+  <div class="modal">
+    <div class="drag-handle"></div>
+    <div class="mhdr"><h3>Top Up Balance</h3><button class="xbtn" onclick="closeOv('ov-topup')">×</button></div>
+    <div class="mbody">
+      <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;padding:12px;margin-bottom:14px;text-align:center">
+        <div style="font-size:12px;color:#16a34a;font-weight:700;text-transform:uppercase;margin-bottom:3px">Current Balance</div>
+        <div style="font-size:24px;font-weight:900;color:#16a34a" id="topup-cur-bal">₹0</div>
+      </div>
+      <div class="topup-grid">
+        <div class="topup-opt" onclick="selTopup(500)"><div class="amt">₹500</div><div class="lbl">Starter</div></div>
+        <div class="topup-opt" onclick="selTopup(1000)"><div class="amt">₹1,000</div><div class="lbl">Basic</div></div>
+        <div class="topup-opt" onclick="selTopup(2000)"><div class="amt">₹2,000</div><div class="lbl">Standard</div></div>
+        <div class="topup-opt" onclick="selTopup(5000)"><div class="amt">₹5,000</div><div class="lbl">Pro</div></div>
+        <div class="topup-opt" onclick="selTopup(10000)"><div class="amt">₹10,000</div><div class="lbl">Premium</div></div>
+        <div class="topup-opt" onclick="selTopup(50000)"><div class="amt">₹50,000</div><div class="lbl">Mega</div></div>
+      </div>
+      <div class="mfield"><label>Or Enter Custom Amount (₹)</label><input type="number" id="topup-custom" placeholder="e.g. 3000" min="1" inputmode="numeric"></div>
+      <div class="mfield"><label>Confirm PIN</label><input type="password" id="topup-pin" placeholder="••••" maxlength="4" inputmode="numeric"></div>
+      <div class="merr" id="topup-err"></div>
+      <div class="mok" id="topup-ok"></div>
+      <button class="mbtn gold" onclick="doTopup()">Add Money →</button>
+    </div>
+  </div>
+</div>
+
+<!-- NOTIFICATIONS MODAL -->
+<div class="overlay" id="ov-notifs">
+  <div class="modal">
+    <div class="drag-handle"></div>
+    <div class="mhdr"><h3>Notifications</h3><button class="xbtn" onclick="closeOv('ov-notifs')">×</button></div>
+    <div style="max-height:70vh;overflow-y:auto" id="notifs-list">
+      <div class="empty" style="padding:30px"><h3>No notifications</h3></div>
+    </div>
+  </div>
+</div>
+
+<!-- SELLER PROFILE MODAL -->
+<div class="overlay" id="ov-seller-profile">
+  <div class="modal">
+    <div class="drag-handle"></div>
+    <div class="mhdr"><h3>Seller Profile</h3><button class="xbtn" onclick="closeOv('ov-seller-profile')">×</button></div>
+    <div class="mbody">
+      <div style="text-align:center;margin-bottom:16px">
+        <div class="av" style="width:56px;height:56px;font-size:20px;margin:0 auto 10px" id="sp-av">?</div>
+        <div style="font-size:17px;font-weight:800" id="sp-name">-</div>
+        <div style="font-size:13px;color:#888;margin-top:3px" id="sp-bio">-</div>
+      </div>
+      <div class="stats" style="grid-template-columns:1fr 1fr;margin-bottom:14px" id="sp-stats"></div>
+      <div style="font-size:13px;font-weight:700;margin-bottom:8px">Products by this seller</div>
+      <div class="pgrid" id="sp-products" style="grid-template-columns:repeat(2,1fr)"></div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<footer>© 2026 Abhinav's Market · Powered by ZeroBank (Simulated)</footer>
+
+<!-- JS — order matters! -->
+<script src="js/config.js"></script>
+<script src="js/db.js"></script>
+<script src="js/utils.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/marketplace.js"></script>
+<script src="js/product.js"></script>
+<script src="js/payment.js"></script>
+<script src="js/seller.js"></script>
+<script src="js/account.js"></script>
+<script src="js/wishlist.js"></script>
+<script>
+  loadProducts();
+</script>
 </body>
 </html>
