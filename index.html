@@ -11,7 +11,6 @@
     header h1 { font-size: 20px; font-weight: 700; }
     .account-bar { display: flex; align-items: center; gap: 10px; }
     .account-badge { background: #f0f0ee; border-radius: 8px; padding: 8px 14px; font-size: 13px; display: none; }
-    .account-badge span { font-weight: 600; color: #1a1a1a; }
     .account-badge .bal { color: #16a34a; font-weight: 700; }
     .login-btn { background: #1a1a1a; color: #fff; border: none; padding: 8px 16px; border-radius: 8px; font-size: 13px; cursor: pointer; }
     .logout-btn { background: none; border: 1px solid #ddd; padding: 8px 12px; border-radius: 8px; font-size: 12px; cursor: pointer; color: #666; display: none; }
@@ -29,70 +28,58 @@
     .buy-btn { background: #1a1a1a; color: #fff; border: none; padding: 9px 20px; border-radius: 8px; font-size: 13px; font-weight: 500; cursor: pointer; }
     .buy-btn:hover { background: #333; }
     .buy-btn:disabled { background: #ccc; cursor: not-allowed; }
-
-    /* Overlay */
     .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.55); z-index: 100; align-items: center; justify-content: center; padding: 16px; }
     .overlay.active { display: flex; }
-    .modal { background: #fff; border-radius: 18px; width: 100%; max-width: 400px; overflow: hidden; }
-    .modal-header { padding: 18px 22px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; }
+    .modal { background: #fff; border-radius: 18px; width: 100%; max-width: 420px; overflow: hidden; max-height: 90vh; overflow-y: auto; }
+    .modal-header { padding: 18px 22px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; background: #fff; z-index: 1; }
     .modal-header h3 { font-size: 15px; font-weight: 600; }
     .close-btn { background: none; border: none; font-size: 22px; cursor: pointer; color: #888; line-height: 1; }
     .modal-body { padding: 22px; }
-
-    /* Bank login */
+    .bank-logo { width: 48px; height: 48px; background: #1a1a1a; border-radius: 12px; margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 16px; }
     .bank-header { text-align: center; margin-bottom: 20px; }
-    .bank-header .bank-logo { width: 48px; height: 48px; background: #1a1a1a; border-radius: 12px; margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 16px; }
     .bank-header h4 { font-size: 15px; font-weight: 600; }
     .bank-header p { font-size: 12px; color: #888; margin-top: 3px; }
+    .accounts-panel { background: #f8f8f6; border-radius: 10px; padding: 12px; margin-bottom: 16px; }
+    .accounts-panel .panel-label { font-size: 11px; color: #888; margin-bottom: 8px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+    .acc-chip { display: inline-block; background: #fff; border: 1px solid #ddd; border-radius: 6px; padding: 5px 10px; font-size: 12px; margin: 3px; cursor: pointer; }
+    .acc-chip:hover { border-color: #1a1a1a; background: #f0f0ee; }
     .field { margin-bottom: 14px; }
     .field label { display: block; font-size: 11px; font-weight: 600; color: #888; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.5px; }
-    .field input, .field select { width: 100%; padding: 10px 12px; border: 1.5px solid #eee; border-radius: 8px; font-size: 14px; outline: none; font-family: inherit; background: #fff; }
-    .field input:focus, .field select:focus { border-color: #1a1a1a; }
-    .field input[type=password] { letter-spacing: 4px; font-size: 16px; }
+    .field input { width: 100%; padding: 10px 12px; border: 1.5px solid #eee; border-radius: 8px; font-size: 14px; outline: none; font-family: inherit; background: #fff; }
+    .field input:focus { border-color: #1a1a1a; }
     .action-btn { width: 100%; background: #1a1a1a; color: #fff; border: none; padding: 13px; border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer; margin-top: 4px; }
     .action-btn:hover { background: #333; }
-    .error-msg { background: #fff1f1; color: #c0392b; font-size: 12px; padding: 9px 12px; border-radius: 8px; margin-bottom: 14px; display: none; border: 1px solid #ffd5d5; }
-
-    /* Payment modal */
+    .action-btn:disabled { background: #ccc; cursor: not-allowed; }
+    .error-box { background: #fff1f1; color: #c0392b; font-size: 12px; padding: 9px 12px; border-radius: 8px; margin-bottom: 14px; display: none; border: 1px solid #ffd5d5; }
     .order-summary-box { background: #f8f8f6; border-radius: 10px; padding: 14px; margin-bottom: 16px; }
     .order-row { display: flex; justify-content: space-between; font-size: 13px; padding: 3px 0; }
     .order-row.total { font-weight: 700; font-size: 15px; border-top: 1px solid #e5e5e5; margin-top: 8px; padding-top: 10px; }
     .account-info-box { background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 10px; padding: 14px; margin-bottom: 16px; }
-    .account-info-box .ai-label { font-size: 11px; color: #16a34a; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
-    .account-info-box .ai-name { font-size: 14px; font-weight: 600; color: #1a1a1a; }
-    .account-info-box .ai-balance { font-size: 13px; color: #16a34a; font-weight: 600; margin-top: 2px; }
+    .ai-label { font-size: 11px; color: #16a34a; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+    .ai-name { font-size: 14px; font-weight: 600; color: #1a1a1a; }
+    .ai-balance { font-size: 13px; color: #16a34a; font-weight: 600; margin-top: 2px; }
     .pin-field { margin-bottom: 14px; }
     .pin-field label { display: block; font-size: 11px; font-weight: 600; color: #888; margin-bottom: 5px; text-transform: uppercase; }
     .pin-field input { width: 100%; padding: 12px; border: 1.5px solid #eee; border-radius: 8px; font-size: 22px; letter-spacing: 8px; text-align: center; outline: none; font-family: monospace; }
     .pin-field input:focus { border-color: #1a1a1a; }
-    .insufficient { background: #fff8e6; border: 1px solid #ffd98a; border-radius: 8px; padding: 10px 12px; font-size: 12px; color: #b45309; margin-bottom: 14px; display: none; }
-
-    /* Processing */
+    .insufficient-box { background: #fff8e6; border: 1px solid #ffd98a; border-radius: 8px; padding: 10px 12px; font-size: 12px; color: #b45309; margin-bottom: 14px; display: none; }
     .processing-screen { display: none; padding: 40px 24px; text-align: center; }
     .processing-screen.active { display: block; }
     .spinner { width: 48px; height: 48px; border: 3px solid #eee; border-top-color: #1a1a1a; border-radius: 50%; animation: spin 0.7s linear infinite; margin: 0 auto 16px; }
     @keyframes spin { to { transform: rotate(360deg); } }
     .processing-screen h3 { font-size: 16px; font-weight: 600; margin-bottom: 6px; }
     .processing-screen p { font-size: 13px; color: #888; }
-
-    /* Success */
     .success-screen { display: none; padding: 36px 24px; text-align: center; }
     .success-screen.active { display: block; }
-    .checkmark { width: 60px; height: 60px; background: #f0fdf4; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 14px; font-size: 26px; color: #16a34a; font-weight: 700; }
+    .checkmark { width: 60px; height: 60px; background: #f0fdf4; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 14px; font-size: 28px; color: #16a34a; font-weight: 700; }
     .success-screen h3 { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
     .success-screen p { font-size: 13px; color: #666; line-height: 1.6; }
     .txn-box { background: #f8f8f6; border-radius: 10px; padding: 14px; margin: 16px 0; text-align: left; }
-    .txn-row { display: flex; justify-content: space-between; font-size: 12px; padding: 3px 0; color: #666; }
+    .txn-row { display: flex; justify-content: space-between; font-size: 12px; padding: 4px 0; color: #666; border-bottom: 1px solid #eee; }
+    .txn-row:last-child { border-bottom: none; }
     .txn-row span:last-child { font-weight: 600; color: #1a1a1a; }
-    .new-balance { font-size: 13px; color: #16a34a; font-weight: 600; margin-top: 10px; }
-
+    .new-balance { font-size: 14px; color: #16a34a; font-weight: 700; margin-top: 10px; }
     footer { text-align: center; padding: 36px 24px; color: #aaa; font-size: 12px; }
-
-    /* Accounts list panel */
-    .accounts-panel { background: #f8f8f6; border-radius: 10px; padding: 12px; margin-bottom: 16px; }
-    .accounts-panel p { font-size: 11px; color: #888; margin-bottom: 8px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
-    .acc-chip { display: inline-block; background: #fff; border: 1px solid #ddd; border-radius: 6px; padding: 5px 10px; font-size: 12px; margin: 3px; cursor: pointer; }
-    .acc-chip:hover { border-color: #1a1a1a; }
   </style>
 </head>
 <body>
@@ -121,11 +108,10 @@
       <p>Crystal clear sound, 24hr battery, IPX5 waterproof. Your perfect companion.</p>
       <div class="card-footer">
         <span class="price">₹3,999</span>
-        <button class="buy-btn" id="btn1" onclick="openPayment('Premium Wireless Earbuds', 3999)">Buy Now</button>
+        <button class="buy-btn" onclick="openPayment('Premium Wireless Earbuds', 3999)">Buy Now</button>
       </div>
     </div>
   </div>
-
   <div class="card">
     <img src="https://images.unsplash.com/photo-1627123424574-724758594e93?w=600" alt="Wallet">
     <div class="card-body">
@@ -133,7 +119,7 @@
       <p>Slim profile, holds 8 cards, genuine full-grain leather. Built to last.</p>
       <div class="card-footer">
         <span class="price">₹1,999</span>
-        <button class="buy-btn" id="btn2" onclick="openPayment('Minimalist Leather Wallet', 1999)">Buy Now</button>
+        <button class="buy-btn" onclick="openPayment('Minimalist Leather Wallet', 1999)">Buy Now</button>
       </div>
     </div>
   </div>
@@ -141,8 +127,8 @@
 
 <footer>© 2026 ShopZero · Powered by ZeroBank (Simulated)</footer>
 
-<!-- ===== LOGIN MODAL ===== -->
-<div class="overlay" id="login-overlay" onclick="closeIfOutside(event,'login-overlay')">
+<!-- LOGIN MODAL -->
+<div class="overlay" id="login-overlay">
   <div class="modal">
     <div class="modal-header">
       <h3>ZeroBank Login</h3>
@@ -154,41 +140,36 @@
         <h4>ZeroBank</h4>
         <p>Your simulated digital bank</p>
       </div>
-
       <div class="accounts-panel">
-        <p>Demo accounts (PIN: 1234 for all)</p>
+        <div class="panel-label">Demo accounts — PIN is 1234 for all</div>
         <span class="acc-chip" onclick="fillAccount('ZERO001')">ZERO001 · Rahul</span>
         <span class="acc-chip" onclick="fillAccount('ZERO002')">ZERO002 · Priya</span>
         <span class="acc-chip" onclick="fillAccount('ZERO003')">ZERO003 · Arjun</span>
         <span class="acc-chip" onclick="fillAccount('ZERO004')">ZERO004 · Sneha</span>
         <span class="acc-chip" onclick="fillAccount('ZERO005')">ZERO005 · Demo</span>
       </div>
-
-      <div class="error-msg" id="login-error">Incorrect account number or PIN. Try again.</div>
-
+      <div class="error-box" id="login-error">Incorrect account number or PIN.</div>
       <div class="field">
         <label>Account Number</label>
-        <input type="text" id="login-acc" placeholder="e.g. ZERO001" style="text-transform:uppercase">
+        <input type="text" id="login-acc" placeholder="e.g. ZERO001">
       </div>
       <div class="field">
         <label>PIN</label>
-        <input type="password" id="login-pin" placeholder="••••" maxlength="4" onkeydown="if(event.key==='Enter') doLogin()">
+        <input type="password" id="login-pin" placeholder="••••" maxlength="4" onkeydown="if(event.key==='Enter')doLogin()">
       </div>
       <button class="action-btn" onclick="doLogin()">Login →</button>
     </div>
   </div>
 </div>
 
-<!-- ===== PAYMENT MODAL ===== -->
-<div class="overlay" id="pay-overlay" onclick="closeIfOutside(event,'pay-overlay')">
+<!-- PAYMENT MODAL -->
+<div class="overlay" id="pay-overlay">
   <div class="modal">
     <div class="modal-header">
       <h3>Confirm Payment</h3>
       <button class="close-btn" onclick="closeOverlay('pay-overlay')">×</button>
     </div>
-    <div class="modal-body" id="pay-body">
-
-      <!-- Step: Confirm -->
+    <div class="modal-body">
       <div id="pay-confirm">
         <div class="order-summary-box">
           <div class="order-row"><span>Product</span><span id="pay-product">-</span></div>
@@ -198,69 +179,78 @@
         <div class="account-info-box">
           <div class="ai-label">Paying from</div>
           <div class="ai-name" id="pay-acc-name">-</div>
-          <div class="ai-balance" id="pay-acc-balance">Balance: ₹0</div>
+          <div class="ai-balance" id="pay-acc-balance">-</div>
         </div>
-        <div class="insufficient" id="insufficient-msg">Insufficient balance in your account.</div>
+        <div class="insufficient-box" id="insufficient-msg">Insufficient balance in your account.</div>
         <div class="pin-field">
           <label>Enter PIN to confirm</label>
-          <input type="password" id="pay-pin" placeholder="••••" maxlength="4" onkeydown="if(event.key==='Enter') confirmPayment()">
+          <input type="password" id="pay-pin" placeholder="••••" maxlength="4" onkeydown="if(event.key==='Enter')confirmPayment()">
         </div>
-        <div class="error-msg" id="pay-error">Wrong PIN. Please try again.</div>
-        <button class="action-btn" onclick="confirmPayment()">Pay Now</button>
+        <div class="error-box" id="pay-error">Wrong PIN. Please try again.</div>
+        <button class="action-btn" id="pay-btn" onclick="confirmPayment()">Pay Now</button>
       </div>
 
-      <!-- Processing -->
       <div class="processing-screen" id="processing">
         <div class="spinner"></div>
         <h3>Processing payment...</h3>
         <p>Please wait, do not close this window.</p>
       </div>
 
-      <!-- Success -->
       <div class="success-screen" id="success">
         <div class="checkmark">✓</div>
         <h3>Payment Successful!</h3>
-        <p>Your order is confirmed. Supplier has been notified automatically.</p>
+        <p>Your order is confirmed. Supplier has been automatically notified.</p>
         <div class="txn-box">
           <div class="txn-row"><span>Transaction ID</span><span id="s-txnid">-</span></div>
           <div class="txn-row"><span>Product</span><span id="s-product">-</span></div>
-          <div class="txn-row"><span>Amount Paid</span><span id="s-amount">-</span></div>
-          <div class="txn-row"><span>From Account</span><span id="s-from">-</span></div>
-          <div class="txn-row"><span>To Account</span><span>SHOPZERO</span></div>
+          <div class="txn-row"><span>Amount</span><span id="s-amount">-</span></div>
+          <div class="txn-row"><span>From</span><span id="s-from">-</span></div>
+          <div class="txn-row"><span>To</span><span>SHOPZERO</span></div>
           <div class="txn-row"><span>Time</span><span id="s-time">-</span></div>
         </div>
         <div class="new-balance" id="s-newbal"></div>
         <button class="action-btn" style="margin-top:16px" onclick="closeOverlay('pay-overlay')">Done</button>
       </div>
-
     </div>
   </div>
 </div>
 
 <script>
-  // ====== CONFIG — paste your Supabase details here ======
-const SUPABASE_URL = 'https://lyodbjvysuvlgdaqrrpp.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx5b2RianZ5c3V2bGdkYXFycnBwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQxMzUyMzIsImV4cCI6MjA4OTcxMTIzMn0.5oE5e2Bhd5KlvAM57V8JnFx6uw6tGvOaqQ-2QTjUzAg';
-const N8N_WEBHOOK  = 'PASTE_YOUR_N8N_WEBHOOK_URL_HERE';
-  // =======================================================
+  // ============================================================
+  // PASTE YOUR VALUES HERE — these are the only 2 things to change
+  const SUPABASE_URL = 'https://lyodbjvysuvlgdaqrrpp.supabase.co';
+  const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx5b2RianZ5c3V2bGdkYXFycnBwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQxMzUyMzIsImV4cCI6MjA4OTcxMTIzMn0.5oE5e2Bhd5KlvAM57V8JnFx6uw6tGvOaqQ-2QTjUzAg'; // starts with eyJ...
+  // ============================================================
 
   let currentUser = null;
   let currentProduct = '';
   let currentAmount = 0;
 
-  async function sb(path, method = 'GET', body = null) {
-    const opts = {
-      method,
-      headers: {
-        'apikey': SUPABASE_KEY,
-        'Authorization': 'Bearer ' + SUPABASE_KEY,
-        'Content-Type': 'application/json',
-        'Prefer': method === 'POST' ? 'return=representation' : ''
-      }
+  async function sbFetch(path, method, body) {
+    const url = SUPABASE_URL + '/rest/v1/' + path;
+    const headers = {
+      'apikey': SUPABASE_KEY,
+      'Authorization': 'Bearer ' + SUPABASE_KEY,
+      'Content-Type': 'application/json'
     };
-    if (body) opts.body = JSON.stringify(body);
-    const r = await fetch(SUPABASE_URL + '/rest/v1/' + path, opts);
-    return r.json();
+    if (method === 'POST') headers['Prefer'] = 'return=representation';
+    if (method === 'PATCH') headers['Prefer'] = 'return=representation';
+
+    const res = await fetch(url, {
+      method: method || 'GET',
+      headers: headers,
+      body: body ? JSON.stringify(body) : undefined
+    });
+
+    const text = await res.text();
+    let json;
+    try { json = JSON.parse(text); } catch(e) { json = text; }
+
+    if (!res.ok) {
+      const msg = typeof json === 'object' ? (json.message || json.hint || JSON.stringify(json)) : text;
+      throw new Error('Status ' + res.status + ': ' + msg);
+    }
+    return json;
   }
 
   function fillAccount(acc) {
@@ -269,38 +259,36 @@ const N8N_WEBHOOK  = 'PASTE_YOUR_N8N_WEBHOOK_URL_HERE';
     document.getElementById('login-pin').focus();
   }
 
-  async function sb(path, method = 'GET', body = null) {
-    const opts = {
-      method,
-      headers: {
-        'apikey': SUPABASE_KEY,
-        'Authorization': 'Bearer ' + SUPABASE_KEY,
-        'Content-Type': 'application/json',
-        'Prefer': method === 'POST' ? 'return=representation' : ''
-      }
-    };
-    if (body) opts.body = JSON.stringify(body);
-    const r = await fetch(SUPABASE_URL + '/rest/v1/' + path, opts);
-    const json = await r.json();
-    if (!r.ok) {
-      alert('Supabase error ' + r.status + ': ' + JSON.stringify(json));
-      throw new Error(JSON.stringify(json));
+  async function doLogin() {
+    const acc = document.getElementById('login-acc').value.trim().toUpperCase();
+    const pin = document.getElementById('login-pin').value.trim();
+    const errEl = document.getElementById('login-error');
+    errEl.style.display = 'none';
+
+    if (!acc || !pin) {
+      errEl.textContent = 'Please enter account number and PIN.';
+      errEl.style.display = 'block';
+      return;
     }
-    return json;
-  }
 
-    currentUser = data[0];
-    updateHeader();
-    closeOverlay('login-overlay');
-  }
-
-  function updateHeader() {
-    if (!currentUser) return;
-    document.getElementById('account-badge').style.display = 'block';
-    document.getElementById('badge-name').textContent = currentUser.account_holder.split(' ')[0];
-    document.getElementById('badge-balance').textContent = '₹' + currentUser.balance.toLocaleString('en-IN');
-    document.getElementById('login-btn').style.display = 'none';
-    document.getElementById('logout-btn').style.display = 'inline-block';
+    try {
+      const data = await sbFetch('bank_accounts?account_number=eq.' + acc + '&pin=eq.' + pin + '&select=*', 'GET');
+      if (!data || data.length === 0) {
+        errEl.textContent = 'Incorrect account number or PIN.';
+        errEl.style.display = 'block';
+        return;
+      }
+      currentUser = data[0];
+      document.getElementById('account-badge').style.display = 'block';
+      document.getElementById('badge-name').textContent = currentUser.account_holder.split(' ')[0];
+      document.getElementById('badge-balance').textContent = '₹' + currentUser.balance.toLocaleString('en-IN');
+      document.getElementById('login-btn').style.display = 'none';
+      document.getElementById('logout-btn').style.display = 'inline-block';
+      closeOverlay('login-overlay');
+    } catch(e) {
+      errEl.textContent = 'Connection error: ' + e.message;
+      errEl.style.display = 'block';
+    }
   }
 
   function logout() {
@@ -312,12 +300,13 @@ const N8N_WEBHOOK  = 'PASTE_YOUR_N8N_WEBHOOK_URL_HERE';
 
   function openLogin() {
     document.getElementById('login-error').style.display = 'none';
+    document.getElementById('login-acc').value = '';
+    document.getElementById('login-pin').value = '';
     openOverlay('login-overlay');
   }
 
   function openPayment(product, amount) {
     if (!currentUser) { openLogin(); return; }
-
     currentProduct = product;
     currentAmount = amount;
 
@@ -331,46 +320,44 @@ const N8N_WEBHOOK  = 'PASTE_YOUR_N8N_WEBHOOK_URL_HERE';
     document.getElementById('processing').classList.remove('active');
     document.getElementById('success').classList.remove('active');
 
-    const insuf = document.getElementById('insufficient-msg');
     if (currentUser.balance < amount) {
-      insuf.style.display = 'block';
-      document.querySelector('#pay-confirm .action-btn').disabled = true;
+      document.getElementById('insufficient-msg').style.display = 'block';
+      document.getElementById('pay-btn').disabled = true;
     } else {
-      insuf.style.display = 'none';
-      document.querySelector('#pay-confirm .action-btn').disabled = false;
+      document.getElementById('insufficient-msg').style.display = 'none';
+      document.getElementById('pay-btn').disabled = false;
     }
-
     openOverlay('pay-overlay');
   }
 
   async function confirmPayment() {
     const pin = document.getElementById('pay-pin').value.trim();
-    document.getElementById('pay-error').style.display = 'none';
+    const errEl = document.getElementById('pay-error');
+    errEl.style.display = 'none';
 
-    if (pin !== currentUser.pin) {
-      document.getElementById('pay-error').style.display = 'block';
+    if (pin !== String(currentUser.pin)) {
+      errEl.style.display = 'block';
       return;
     }
 
-    // Show processing
     document.getElementById('pay-confirm').style.display = 'none';
     document.getElementById('processing').classList.add('active');
 
-    await new Promise(r => setTimeout(r, 1800)); // simulate processing delay
+    await new Promise(r => setTimeout(r, 1800));
 
     try {
-      // 1. Debit from user account
       const newBalance = currentUser.balance - currentAmount;
-      await sb(`bank_accounts?account_number=eq.${currentUser.account_number}`, 'PATCH', { balance: newBalance });
 
-      // 2. Credit to store account
-      const storeData = await sb('bank_accounts?account_number=eq.SHOPZERO&select=balance');
-      const storeBalance = storeData[0].balance + currentAmount;
-      await sb('bank_accounts?account_number=eq.SHOPZERO', 'PATCH', { balance: storeBalance });
+      // 1. Debit user
+      await sbFetch('bank_accounts?account_number=eq.' + currentUser.account_number, 'PATCH', { balance: newBalance });
 
-      // 3. Record transaction
+      // 2. Credit store
+      const storeRows = await sbFetch('bank_accounts?account_number=eq.SHOPZERO&select=balance', 'GET');
+      await sbFetch('bank_accounts?account_number=eq.SHOPZERO', 'PATCH', { balance: storeRows[0].balance + currentAmount });
+
+      // 3. Log transaction
       const txnId = 'TXN' + Date.now();
-      await sb('transactions', 'POST', {
+      await sbFetch('transactions', 'POST', {
         from_account: currentUser.account_number,
         to_account: 'SHOPZERO',
         amount: currentAmount,
@@ -378,8 +365,8 @@ const N8N_WEBHOOK  = 'PASTE_YOUR_N8N_WEBHOOK_URL_HERE';
         status: 'success'
       });
 
-      // 4. Record order
-      await sb('orders', 'POST', {
+      // 4. Log order
+      await sbFetch('orders', 'POST', {
         order_id: txnId,
         product_name: currentProduct,
         price: currentAmount,
@@ -387,26 +374,9 @@ const N8N_WEBHOOK  = 'PASTE_YOUR_N8N_WEBHOOK_URL_HERE';
         customer_account: currentUser.account_number
       });
 
-      // 5. Trigger n8n
-      if (N8N_WEBHOOK && N8N_WEBHOOK !== 'PASTE_YOUR_N8N_WEBHOOK_URL_HERE') {
-        fetch(N8N_WEBHOOK, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            order_id: txnId,
-            product_name: currentProduct,
-            amount: currentAmount,
-            customer_name: currentUser.account_holder,
-            customer_account: currentUser.account_number
-          })
-        }).catch(() => {});
-      }
-
-      // Update local user balance
       currentUser.balance = newBalance;
-      updateHeader();
+      document.getElementById('badge-balance').textContent = '₹' + newBalance.toLocaleString('en-IN');
 
-      // Show success
       document.getElementById('processing').classList.remove('active');
       document.getElementById('success').classList.add('active');
       document.getElementById('s-txnid').textContent = txnId;
@@ -416,26 +386,16 @@ const N8N_WEBHOOK  = 'PASTE_YOUR_N8N_WEBHOOK_URL_HERE';
       document.getElementById('s-time').textContent = new Date().toLocaleTimeString('en-IN');
       document.getElementById('s-newbal').textContent = 'New balance: ₹' + newBalance.toLocaleString('en-IN');
 
-    } } catch(e) {
-      console.error('Full error:', e);
-      alert('Error: ' + e.message);
-      closeOverlay('pay-overlay');
+    } catch(e) {
+      document.getElementById('processing').classList.remove('active');
+      document.getElementById('pay-confirm').style.display = 'block';
+      errEl.textContent = 'Payment failed: ' + e.message;
+      errEl.style.display = 'block';
     }
   }
 
   function openOverlay(id) { document.getElementById(id).classList.add('active'); }
   function closeOverlay(id) { document.getElementById(id).classList.remove('active'); }
-  function closeIfOutside(e, id) { if (e.target.id === id) closeOverlay(id); }
 </script>
 </body>
 </html>
-```
-
----
-
-**The only 2 things to paste into the file:**
-
-At the top of the `<script>` tag:
-```
-SUPABASE_URL  → your Project URL from Supabase Settings → API
-SUPABASE_KEY  → your anon/public key from the same page
