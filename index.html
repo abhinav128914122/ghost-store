@@ -684,35 +684,38 @@ footer{text-align:center;padding:28px;color:#aaa;font-size:12px;border-top:1px s
 <!-- ══════════════ MODALS ══════════════ -->
 
 <!-- LOGIN MODAL -->
-<div class="overlay" id="ov-login">
-  <div class="modal">
-    <div class="drag-handle" onclick="closeOv('ov-login')"></div>
-    <div class="mhdr"><h3>Login to ZeroBank</h3><button class="xbtn" onclick="closeOv('ov-login')">×</button></div>
-    <div class="mbody">
-      <div class="bank-hdr">
-        <div class="bank-logo">AM</div>
-        <h4>Abhinav's Market Bank</h4>
-        <p>Simulated banking · No real money</p>
-      </div>
-      <div class="acc-panel">
-        <div class="lbl">Demo buyers</div>
-        <span class="chip" onclick="fillAcc('ZERO001')">ZERO001 · Abhinav</span>
-        <span class="chip" onclick="fillAcc('ZERO002')">ZERO002 · Vyomi</span>
-        <span class="chip" onclick="fillAcc('ZERO003')">ZERO003 · Vaibhav</span>
-        <span class="chip" onclick="fillAcc('ZERO004')">ZERO004 · Navya</span>
-        <div class="lbl" style="margin-top:8px">Demo sellers</div>
-        <span class="chip" onclick="fillAcc('SELLER1')">SELLER1 · TechWorld</span>
-        <span class="chip" onclick="fillAcc('SELLER2')">SELLER2 · FashionHub</span>
-        <span class="chip" onclick="fillAcc('SELLER3')">SELLER3 · BookNest</span>
-      </div>
-      <div class="merr" id="login-err"></div>
-      <div class="mfield"><label>Account Number</label><input type="text" id="l-acc" placeholder="e.g. ZERO001" oninput="this.value=this.value.toUpperCase()"></div>
-      <div class="mfield"><label>PIN</label><input type="password" id="l-pin" placeholder="••••" maxlength="4" onkeydown="if(event.key==='Enter')doLogin()"></div>
-      <button class="mbtn" onclick="doLogin()">Login →</button>
-      <div class="divider"><span></span><p>Don't have an account?</p><span></span></div>
-      <button class="mbtn outline" onclick="closeOv('ov-login');openCreateAccount()">Create Free Account</button>
-    </div>
+<div class="mbody">
+  <div class="bank-hdr">
+    <div class="bank-logo">AM</div>
+    <h4>Abhinav's Market Bank</h4>
+    <p>Simulated banking · No real money</p>
   </div>
+
+  <!-- GOOGLE SIGN IN BUTTON -->
+  <button onclick="signInWithGoogle()" style="width:100%;display:flex;align-items:center;justify-content:center;gap:10px;background:#fff;border:1.5px solid #eee;border-radius:10px;padding:12px;font-size:14px;font-weight:600;cursor:pointer;margin-bottom:14px;font-family:inherit;color:#1a1a1a">
+    <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="20" height="20">
+    Continue with Google
+  </button>
+
+  <div class="divider"><span></span><p>or use demo account</p><span></span></div>
+
+  <div class="acc-panel">
+    <div class="lbl">Demo buyers (PIN: 1234)</div>
+    <span class="chip" onclick="fillAcc('ZERO001')">ZERO001 · Abhinav</span>
+    <span class="chip" onclick="fillAcc('ZERO002')">ZERO002 · Vyomi</span>
+    <span class="chip" onclick="fillAcc('ZERO003')">ZERO003 · Vaibhav</span>
+    <span class="chip" onclick="fillAcc('ZERO004')">ZERO004 · Navya</span>
+    <div class="lbl" style="margin-top:8px">Demo sellers (PIN: 1234)</div>
+    <span class="chip" onclick="fillAcc('SELLER1')">SELLER1 · TechWorld</span>
+    <span class="chip" onclick="fillAcc('SELLER2')">SELLER2 · FashionHub</span>
+    <span class="chip" onclick="fillAcc('SELLER3')">SELLER3 · BookNest</span>
+  </div>
+  <div class="merr" id="login-err"></div>
+  <div class="mfield"><label>Account Number</label><input type="text" id="l-acc" placeholder="e.g. ZERO001" oninput="this.value=this.value.toUpperCase()"></div>
+  <div class="mfield"><label>PIN</label><input type="password" id="l-pin" placeholder="••••" maxlength="4" onkeydown="if(event.key==='Enter')doLogin()"></div>
+  <button class="mbtn" onclick="doLogin()">Login →</button>
+  <div class="divider"><span></span><p>Don't have an account?</p><span></span></div>
+  <button class="mbtn outline" onclick="closeOv('ov-login');openCreateAccount()">Create Free Account</button>
 </div>
 
 <!-- ROLE MODAL -->
@@ -904,6 +907,25 @@ footer{text-align:center;padding:28px;color:#aaa;font-size:12px;border-top:1px s
 <footer>© 2026 Abhinav's Market · Powered by ZeroBank (Simulated) · Built with Supabase + Vercel</footer>
 
 <script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyAcItWLxiFakvJGxdSe_smKQ3UaWAufIvw",
+    authDomain: "abhinav-market.firebaseapp.com",
+    projectId: "abhinav-market",
+    storageBucket: "abhinav-market.firebasestorage.app",
+    messagingSenderId: "211352083072",
+    appId: "1:211352083072:web:17545512d6a0c8c4f3e465"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
 // ═══════════════ CONFIG ═══════════════
 const SUPABASE_URL = 'https://lyodbjvysuvlgdaqrrpp.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx5b2RianZ5c3V2bGdkYXFycnBwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQxMzUyMzIsImV4cCI6MjA4OTcxMTIzMn0.5oE5e2Bhd5KlvAM57V8JnFx6uw6tGvOaqQ-2QTjUzAg'; // eyJ...
@@ -1028,6 +1050,83 @@ function openUserMenu(){
 }
 
 // ── MARKETPLACE ───────────────────────────────────────────────
+  // ── GOOGLE SIGN IN ──────────────────────────────────────────
+async function signInWithGoogle() {
+  try {
+    const result = await auth.signInWithPopup(googleProvider);
+    const user = result.user;
+    await handleGoogleUser(user);
+  } catch(e) {
+    if (e.code !== 'auth/popup-closed-by-user') {
+      showToast('Google sign-in failed: ' + e.message);
+    }
+  }
+}
+
+async function handleGoogleUser(firebaseUser) {
+  const uid = firebaseUser.uid;
+  const name = firebaseUser.displayName || 'User';
+  const email = firebaseUser.email || '';
+  const photo = firebaseUser.photoURL || '';
+
+  try {
+    // Check if this Google user already has an account
+    let bankRows = await db('bank_accounts?google_uid=eq.' + uid + '&select=*', 'GET');
+
+    if (!bankRows || !bankRows.length) {
+      // New Google user — create account automatically
+      const accNo = 'G' + uid.slice(0, 9).toUpperCase();
+      await db('bank_accounts', 'POST', {
+        account_number: accNo,
+        account_holder: name,
+        balance: 10000,
+        pin: '0000', // Google users don't use PIN
+        google_uid: uid
+      });
+      await db('profiles', 'POST', {
+        account_number: accNo,
+        role: 'buyer',
+        email: email,
+        google_uid: uid,
+        display_name: name,
+        photo_url: photo
+      });
+      await db('notifications', 'POST', {
+        account_number: accNo,
+        message: "Welcome to Abhinav's Market! You signed in with Google. Your account has ₹10,000 starter balance!",
+        type: 'welcome'
+      }).catch(() => {});
+
+      bankRows = await db('bank_accounts?google_uid=eq.' + uid + '&select=*', 'GET');
+    }
+
+    S.user = bankRows[0];
+    const profRows = await db('profiles?account_number=eq.' + S.user.account_number + '&select=*', 'GET');
+    S.profile = profRows?.[0] || null;
+
+    // Show profile photo if available
+    if (photo) {
+      const avEl = $('u-av');
+      avEl.innerHTML = '';
+      avEl.style.backgroundImage = 'url(' + photo + ')';
+      avEl.style.backgroundSize = 'cover';
+      avEl.style.backgroundPosition = 'center';
+    }
+
+    closeOv('ov-login');
+    onLoggedIn();
+    showToast('Welcome, ' + name.split(' ')[0] + '!');
+  } catch(e) {
+    showToast('Error: ' + e.message);
+  }
+}
+
+// Check if user is already signed in when page loads
+auth.onAuthStateChanged(async (firebaseUser) => {
+  if (firebaseUser && !S.user) {
+    await handleGoogleUser(firebaseUser);
+  }
+});
 async function loadProducts(){
   const grid=$('product-grid');
   grid.innerHTML='<div class="empty" style="grid-column:1/-1"><h3>Loading...</h3></div>';
