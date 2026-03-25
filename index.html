@@ -1980,34 +1980,26 @@ document.querySelectorAll('.overlay').forEach(ov => {
 });
 </script>
 <script type="module">
-  // Import Firebase (v9 modular)
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
   import { getAuth, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
-  // Your Firebase config (GET THIS FROM FIREBASE CONSOLE)
   const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "YOUR_PROJECT.firebaseapp.com",
-    projectId: "YOUR_PROJECT_ID",
-    appId: "YOUR_APP_ID"
+    apiKey: "AIzaSyAcItWLxiFakvJGxdSe_smKQ3UaWAufIvw",
+    authDomain: "abhinav-market.firebaseapp.com",
+    projectId: "abhinav-market",
+    storageBucket: "abhinav-market.firebasestorage.app",
+    messagingSenderId: "211352083072",
+    appId: "1:211352083072:web:17545512d6a0c8c4f3e465"
   };
 
-  // Initialize Firebase
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
   const provider = new GoogleAuthProvider();
 
-  // Make function global so your button can call it
-  window.signInWithGoogle = function () {
+  window.signInWithGoogle = () => {
     signInWithPopup(auth, provider)
-      .then((result) => {
-        console.log("User:", result.user);
-        alert("Login successful: " + result.user.displayName);
-      })
-      .catch((error) => {
-        console.error(error);
-        alert(error.message);
-      });
+      .then(res => console.log(res.user))
+      .catch(err => console.error(err));
   };
 </script>
 </body>
