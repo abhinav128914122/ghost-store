@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -612,7 +611,6 @@ footer{text-align:center;padding:28px;color:#aaa;font-size:12px;border-top:1px s
       <div class="cstep" id="cs2"><div class="cstep-num">2</div><div class="cstep-lbl">Account</div></div>
       <div class="cstep" id="cs3"><div class="cstep-num">3</div><div class="cstep-lbl">Done!</div></div>
     </div>
-
     <!-- Step 1 -->
     <div id="ca-step1">
       <div class="fcard">
@@ -620,7 +618,7 @@ footer{text-align:center;padding:28px;color:#aaa;font-size:12px;border-top:1px s
         <div class="ff"><label>Full Name</label><input type="text" id="ca-name" placeholder="e.g. Rahul Sharma"></div>
         <div class="ff"><label>Email (optional)</label><input type="email" id="ca-email" placeholder="rahul@email.com"></div>
         <div class="ff"><label>I want to join as</label>
-          <select id="ca-role">
+          <select id="ca-role" onchange="document.getElementById('ca-store-fields').style.display=this.value!=='buyer'?'block':'none'">
             <option value="buyer">Buyer — I want to shop</option>
             <option value="seller">Seller — I want to sell products</option>
             <option value="both">Both — Buy and sell</option>
@@ -634,7 +632,6 @@ footer{text-align:center;padding:28px;color:#aaa;font-size:12px;border-top:1px s
         <button class="sub-btn" onclick="caNext1()">Continue →</button>
       </div>
     </div>
-
     <!-- Step 2 -->
     <div id="ca-step2" style="display:none">
       <div class="fcard">
@@ -662,7 +659,6 @@ footer{text-align:center;padding:28px;color:#aaa;font-size:12px;border-top:1px s
         </div>
       </div>
     </div>
-
     <!-- Step 3 -->
     <div id="ca-step3" style="display:none">
       <div class="fcard" style="text-align:center">
@@ -684,38 +680,44 @@ footer{text-align:center;padding:28px;color:#aaa;font-size:12px;border-top:1px s
 <!-- ══════════════ MODALS ══════════════ -->
 
 <!-- LOGIN MODAL -->
-<div class="mbody">
-  <div class="bank-hdr">
-    <div class="bank-logo">AM</div>
-    <h4>Abhinav's Market Bank</h4>
-    <p>Simulated banking · No real money</p>
+<div class="overlay" id="ov-login">
+  <div class="modal">
+    <div class="drag-handle"></div>
+    <div class="mhdr"><h3>Login to Abhinav's Market</h3><button class="xbtn" onclick="closeOv('ov-login')">×</button></div>
+    <div class="mbody">
+      <div class="bank-hdr">
+        <div class="bank-logo">AM</div>
+        <h4>Abhinav's Market Bank</h4>
+        <p>Simulated banking · No real money</p>
+      </div>
+
+      <!-- GOOGLE SIGN IN BUTTON -->
+      <button onclick="signInWithGoogle()" style="width:100%;display:flex;align-items:center;justify-content:center;gap:10px;background:#fff;border:1.5px solid #eee;border-radius:10px;padding:12px;font-size:14px;font-weight:600;cursor:pointer;margin-bottom:14px;font-family:inherit;color:#1a1a1a">
+        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="20" height="20">
+        Continue with Google
+      </button>
+
+      <div class="divider"><span></span><p>or use demo account</p><span></span></div>
+
+      <div class="acc-panel">
+        <div class="lbl">Demo buyers (PIN: 1234)</div>
+        <span class="chip" onclick="fillAcc('ZERO001')">ZERO001 · Abhinav</span>
+        <span class="chip" onclick="fillAcc('ZERO002')">ZERO002 · Vyomi</span>
+        <span class="chip" onclick="fillAcc('ZERO003')">ZERO003 · Vaibhav</span>
+        <span class="chip" onclick="fillAcc('ZERO004')">ZERO004 · Navya</span>
+        <div class="lbl" style="margin-top:8px">Demo sellers (PIN: 1234)</div>
+        <span class="chip" onclick="fillAcc('SELLER1')">SELLER1 · TechWorld</span>
+        <span class="chip" onclick="fillAcc('SELLER2')">SELLER2 · FashionHub</span>
+        <span class="chip" onclick="fillAcc('SELLER3')">SELLER3 · BookNest</span>
+      </div>
+      <div class="merr" id="login-err"></div>
+      <div class="mfield"><label>Account Number</label><input type="text" id="l-acc" placeholder="e.g. ZERO001" oninput="this.value=this.value.toUpperCase()"></div>
+      <div class="mfield"><label>PIN</label><input type="password" id="l-pin" placeholder="••••" maxlength="4" onkeydown="if(event.key==='Enter')doLogin()"></div>
+      <button class="mbtn" onclick="doLogin()">Login →</button>
+      <div class="divider"><span></span><p>Don't have an account?</p><span></span></div>
+      <button class="mbtn outline" onclick="closeOv('ov-login');openCreateAccount()">Create Free Account</button>
+    </div>
   </div>
-
-  <!-- GOOGLE SIGN IN BUTTON -->
-  <button onclick="signInWithGoogle()" style="width:100%;display:flex;align-items:center;justify-content:center;gap:10px;background:#fff;border:1.5px solid #eee;border-radius:10px;padding:12px;font-size:14px;font-weight:600;cursor:pointer;margin-bottom:14px;font-family:inherit;color:#1a1a1a">
-    <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="20" height="20">
-    Continue with Google
-  </button>
-
-  <div class="divider"><span></span><p>or use demo account</p><span></span></div>
-
-  <div class="acc-panel">
-    <div class="lbl">Demo buyers (PIN: 1234)</div>
-    <span class="chip" onclick="fillAcc('ZERO001')">ZERO001 · Abhinav</span>
-    <span class="chip" onclick="fillAcc('ZERO002')">ZERO002 · Vyomi</span>
-    <span class="chip" onclick="fillAcc('ZERO003')">ZERO003 · Vaibhav</span>
-    <span class="chip" onclick="fillAcc('ZERO004')">ZERO004 · Navya</span>
-    <div class="lbl" style="margin-top:8px">Demo sellers (PIN: 1234)</div>
-    <span class="chip" onclick="fillAcc('SELLER1')">SELLER1 · TechWorld</span>
-    <span class="chip" onclick="fillAcc('SELLER2')">SELLER2 · FashionHub</span>
-    <span class="chip" onclick="fillAcc('SELLER3')">SELLER3 · BookNest</span>
-  </div>
-  <div class="merr" id="login-err"></div>
-  <div class="mfield"><label>Account Number</label><input type="text" id="l-acc" placeholder="e.g. ZERO001" oninput="this.value=this.value.toUpperCase()"></div>
-  <div class="mfield"><label>PIN</label><input type="password" id="l-pin" placeholder="••••" maxlength="4" onkeydown="if(event.key==='Enter')doLogin()"></div>
-  <button class="mbtn" onclick="doLogin()">Login →</button>
-  <div class="divider"><span></span><p>Don't have an account?</p><span></span></div>
-  <button class="mbtn outline" onclick="closeOv('ov-login');openCreateAccount()">Create Free Account</button>
 </div>
 
 <!-- ROLE MODAL -->
@@ -857,12 +859,12 @@ footer{text-align:center;padding:28px;color:#aaa;font-size:12px;border-top:1px s
         <div style="font-size:24px;font-weight:900;color:#16a34a" id="topup-cur-bal">₹0</div>
       </div>
       <div class="topup-grid">
-        <div class="topup-opt" onclick="selTopup(500)"><div class="amt">₹500</div><div class="lbl">Starter</div></div>
-        <div class="topup-opt" onclick="selTopup(1000)"><div class="amt">₹1,000</div><div class="lbl">Basic</div></div>
-        <div class="topup-opt" onclick="selTopup(2000)"><div class="amt">₹2,000</div><div class="lbl">Standard</div></div>
-        <div class="topup-opt" onclick="selTopup(5000)"><div class="amt">₹5,000</div><div class="lbl">Pro</div></div>
-        <div class="topup-opt" onclick="selTopup(10000)"><div class="amt">₹10,000</div><div class="lbl">Premium</div></div>
-        <div class="topup-opt" onclick="selTopup(50000)"><div class="amt">₹50,000</div><div class="lbl">Mega</div></div>
+        <div class="topup-opt" onclick="selTopup(500,this)"><div class="amt">₹500</div><div class="lbl">Starter</div></div>
+        <div class="topup-opt" onclick="selTopup(1000,this)"><div class="amt">₹1,000</div><div class="lbl">Basic</div></div>
+        <div class="topup-opt" onclick="selTopup(2000,this)"><div class="amt">₹2,000</div><div class="lbl">Standard</div></div>
+        <div class="topup-opt" onclick="selTopup(5000,this)"><div class="amt">₹5,000</div><div class="lbl">Pro</div></div>
+        <div class="topup-opt" onclick="selTopup(10000,this)"><div class="amt">₹10,000</div><div class="lbl">Premium</div></div>
+        <div class="topup-opt" onclick="selTopup(50000,this)"><div class="amt">₹50,000</div><div class="lbl">Mega</div></div>
       </div>
       <div class="mfield"><label>Or Enter Custom Amount (₹)</label><input type="number" id="topup-custom" placeholder="e.g. 3000" min="1" inputmode="numeric"></div>
       <div class="mfield"><label>Confirm PIN</label><input type="password" id="topup-pin" placeholder="••••" maxlength="4" inputmode="numeric"></div>
@@ -904,38 +906,37 @@ footer{text-align:center;padding:28px;color:#aaa;font-size:12px;border-top:1px s
 
 <div class="toast" id="toast"></div>
 
-<footer>© 2026 Abhinav's Market · Powered by ZeroBank (Simulated) · Built with Supabase + Vercel</footer>
+<footer>© 2026 Abhinav's Market · Powered by ZeroBank (Simulated) · Built with Supabase + Firebase</footer>
 
-<script>
+<!-- Firebase SDKs (compat version — must load before main script) -->
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
 
-  // Your web app's Firebase configuration
-  const firebaseConfig = {
-    apiKey: "AIzaSyAcItWLxiFakvJGxdSe_smKQ3UaWAufIvw",
-    authDomain: "abhinav-market.firebaseapp.com",
-    projectId: "abhinav-market",
-    storageBucket: "abhinav-market.firebasestorage.app",
-    messagingSenderId: "211352083072",
-    appId: "1:211352083072:web:17545512d6a0c8c4f3e465"
-  };
+<script>
+// ═══════════════ FIREBASE CONFIG ═══════════════
+const firebaseConfig = {
+  apiKey: "AIzaSyAcItWLxiFakvJGxdSe_smKQ3UaWAufIvw",
+  authDomain: "abhinav-market.firebaseapp.com",
+  projectId: "abhinav-market",
+  storageBucket: "abhinav-market.firebasestorage.app",
+  messagingSenderId: "211352083072",
+  appId: "1:211352083072:web:17545512d6a0c8c4f3e465"
+};
 
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-// ═══════════════ CONFIG ═══════════════
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const googleProvider = new firebase.auth.GoogleAuthProvider();
+
+// ═══════════════ SUPABASE CONFIG ═══════════════
 const SUPABASE_URL = 'https://lyodbjvysuvlgdaqrrpp.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx5b2RianZ5c3V2bGdkYXFycnBwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQxMzUyMzIsImV4cCI6MjA4OTcxMTIzMn0.5oE5e2Bhd5KlvAM57V8JnFx6uw6tGvOaqQ-2QTjUzAg'; // eyJ...
-// ══════════════════════════════════════
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx5b2RianZ5c3V2bGdkYXFycnBwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQxMzUyMzIsImV4cCI6MjA4OTcxMTIzMn0.5oE5e2Bhd5KlvAM57V8JnFx6uw6tGvOaqQ-2QTjUzAg';
 
+// ═══════════════ STATE ═══════════════
 let S = {
-  user:null,profile:null,products:[],
-  cat:'All',search:'',
+  user:null, profile:null, products:[],
+  cat:'All', search:'',
   curProduct:null,
-  pay:{product:null,discount:0,couponCode:''},
+  pay:{product:null, discount:0, couponCode:''},
   reviewRating:0,
   selectedTopup:0,
   pendingAction:null,
@@ -943,119 +944,94 @@ let S = {
 };
 
 // ── DB ──────────────────────────────────────────────────────
-async function db(path,method,body){
-  const h={'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY,'Content-Type':'application/json'};
-  if(method==='POST'||method==='PATCH') h['Prefer']='return=representation';
-  const r=await fetch(SUPABASE_URL+'/rest/v1/'+path,{method:method||'GET',headers:h,body:body?JSON.stringify(body):undefined});
-  const t=await r.text();
-  let j;try{j=JSON.parse(t)}catch(e){j=t}
-  if(!r.ok) throw new Error('DB '+r.status+': '+(j?.message||j?.hint||JSON.stringify(j)));
+async function db(path, method, body) {
+  const h = {
+    'apikey': SUPABASE_KEY,
+    'Authorization': 'Bearer ' + SUPABASE_KEY,
+    'Content-Type': 'application/json'
+  };
+  if (method === 'POST' || method === 'PATCH') h['Prefer'] = 'return=representation';
+  const r = await fetch(SUPABASE_URL + '/rest/v1/' + path, {
+    method: method || 'GET',
+    headers: h,
+    body: body ? JSON.stringify(body) : undefined
+  });
+  const t = await r.text();
+  let j; try { j = JSON.parse(t) } catch(e) { j = t }
+  if (!r.ok) throw new Error('DB ' + r.status + ': ' + (j?.message || j?.hint || JSON.stringify(j)));
   return j;
 }
 
 // ── UTILS ────────────────────────────────────────────────────
-const $=id=>document.getElementById(id);
-const openOv=id=>$(id).classList.add('on');
-const closeOv=id=>$(id).classList.remove('on');
-function showToast(msg){const t=$('toast');t.textContent=msg;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),2600)}
-function stars(r){let s='';for(let i=1;i<=5;i++)s+=i<=Math.round(r)?'★':'☆';return s}
-function fmtDate(d){return new Date(d).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'})}
-function fmt(n){return '₹'+Math.round(n).toLocaleString('en-IN')}
-function initials(name){return name.split(' ').map(x=>x[0]).join('').slice(0,2).toUpperCase()}
-function setBN(p){document.querySelectorAll('.bni').forEach(b=>b.classList.remove('on'));const el=$('bn-'+p);if(el)el.classList.add('on')}
-function goPage(p){
-  document.querySelectorAll('.page').forEach(x=>x.classList.remove('on'));
-  $('page-'+p).classList.add('on');
-  window.scrollTo(0,0);
-  if(p==='sell') loadSellerDash();
-  if(p==='orders') loadMyOrders();
-  if(p==='wishlist') loadWishlistPage();
-  if(p==='txns') loadTxns();
-  if(p==='market') loadProducts();
-}
-function requireLogin(fn){if(S.user){fn()}else{S.pendingAction=fn;openLogin()}}
-function openLogin(){$('login-err').style.display='none';$('l-acc').value='';$('l-pin').value='';openOv('ov-login')}
-function openCreateAccount(){goPage('create-account');caReset()}
-function fillAcc(a){$('l-acc').value=a;$('l-pin').value='';$('l-pin').focus()}
+const $ = id => document.getElementById(id);
+const openOv = id => $(id).classList.add('on');
+const closeOv = id => $(id).classList.remove('on');
 
-// ── AUTH ─────────────────────────────────────────────────────
-async function doLogin(){
-  const acc=$('l-acc').value.trim().toUpperCase();
-  const pin=$('l-pin').value.trim();
-  const err=$('login-err');
-  err.style.display='none';
-  if(!acc||!pin){err.textContent='Enter account and PIN';err.style.display='block';return}
-  try{
-    const data=await db('bank_accounts?account_number=eq.'+acc+'&pin=eq.'+pin+'&select=*','GET');
-    if(!data||!data.length){err.textContent='Wrong account or PIN. Try a demo account above.';err.style.display='block';return}
-    S.user=data[0];
-    let prof=await db('profiles?account_number=eq.'+acc+'&select=*','GET');
-    if(!prof||!prof.length){closeOv('ov-login');openOv('ov-role')}
-    else{S.profile=prof[0];closeOv('ov-login');onLoggedIn()}
-  }catch(e){err.textContent=e.message;err.style.display='block'}
+function showToast(msg) {
+  const t = $('toast');
+  t.textContent = msg;
+  t.classList.add('on');
+  setTimeout(() => t.classList.remove('on'), 2600);
 }
 
-function selRole(r){
-  document.querySelectorAll('.role-card').forEach(c=>c.classList.remove('on'));
-  $('rc-'+r).classList.add('on');
-  $('role-seller-fields').style.display=r==='seller'?'block':'none';
+function stars(r) {
+  let s = '';
+  for (let i = 1; i <= 5; i++) s += i <= Math.round(r) ? '★' : '☆';
+  return s;
 }
 
-async function saveRole(){
-  const isSeller=$('rc-seller').classList.contains('on');
-  const sname=$('r-sname').value.trim()||S.user.account_holder+"'s Store";
-  const sbio=$('r-sbio').value.trim();
-  try{
-    const p=await db('profiles','POST',{account_number:S.user.account_number,role:isSeller?'seller':'buyer',store_name:isSeller?sname:null,store_bio:isSeller?sbio:null,email:''});
-    S.profile=p[0];closeOv('ov-role');onLoggedIn();
-  }catch(e){showToast('Error: '+e.message)}
+function fmtDate(d) {
+  return new Date(d).toLocaleDateString('en-IN', {day:'numeric', month:'short', year:'numeric'});
 }
 
-function onLoggedIn(){
-  $('btn-login').style.display='none';
-  $('upill').style.display='flex';
-  $('u-av').textContent=initials(S.user.account_holder);
-  $('u-name').textContent=S.user.account_holder.split(' ')[0];
-  $('btn-wishlist').style.display='block';
-  $('btn-orders').style.display='block';
-  $('btn-sell').style.display='block';
-  $('notif-btn').style.display='flex';
-  loadWishlist();
-  checkNotifs();
-  if(S.pendingAction){S.pendingAction();S.pendingAction=null}
-  showToast('Welcome, '+S.user.account_holder.split(' ')[0]+'!');
+function fmt(n) { return '₹' + Math.round(n).toLocaleString('en-IN'); }
+
+function initials(name) {
+  return name.split(' ').map(x => x[0]).join('').slice(0, 2).toUpperCase();
 }
 
-function doLogout(){
-  S.user=null;S.profile=null;S.wishlist=[];
-  $('btn-login').style.display='block';
-  $('upill').style.display='none';
-  $('btn-wishlist').style.display='none';
-  $('btn-orders').style.display='none';
-  $('btn-sell').style.display='none';
-  $('notif-btn').style.display='none';
-  closeOv('ov-user');goPage('market');showToast('Logged out.');
+function setBN(p) {
+  document.querySelectorAll('.bni').forEach(b => b.classList.remove('on'));
+  const el = $('bn-' + p);
+  if (el) el.classList.add('on');
 }
 
-function openUserMenu(){
-  if(!S.user)return;
-  $('menu-av').textContent=initials(S.user.account_holder);
-  $('menu-name').textContent=S.user.account_holder;
-  $('menu-acc').textContent=S.user.account_number;
-  $('menu-bal').textContent=fmt(S.user.balance);
-  const hasStore=S.profile?.store_name;
-  $('menu-store-box').style.display=hasStore?'block':'none';
-  if(hasStore)$('menu-store-name').textContent=S.profile.store_name;
-  openOv('ov-user');
+function goPage(p) {
+  document.querySelectorAll('.page').forEach(x => x.classList.remove('on'));
+  $('page-' + p).classList.add('on');
+  window.scrollTo(0, 0);
+  if (p === 'sell') loadSellerDash();
+  if (p === 'orders') loadMyOrders();
+  if (p === 'wishlist') loadWishlistPage();
+  if (p === 'txns') loadTxns();
+  if (p === 'market') loadProducts();
 }
 
-// ── MARKETPLACE ───────────────────────────────────────────────
-  // ── GOOGLE SIGN IN ──────────────────────────────────────────
+function requireLogin(fn) {
+  if (S.user) { fn(); }
+  else { S.pendingAction = fn; openLogin(); }
+}
+
+function openLogin() {
+  $('login-err').style.display = 'none';
+  $('l-acc').value = '';
+  $('l-pin').value = '';
+  openOv('ov-login');
+}
+
+function openCreateAccount() { goPage('create-account'); caReset(); }
+
+function fillAcc(a) {
+  $('l-acc').value = a;
+  $('l-pin').value = '';
+  $('l-pin').focus();
+}
+
+// ── GOOGLE AUTH ──────────────────────────────────────────────
 async function signInWithGoogle() {
   try {
     const result = await auth.signInWithPopup(googleProvider);
-    const user = result.user;
-    await handleGoogleUser(user);
+    await handleGoogleUser(result.user);
   } catch(e) {
     if (e.code !== 'auth/popup-closed-by-user') {
       showToast('Google sign-in failed: ' + e.message);
@@ -1070,17 +1046,15 @@ async function handleGoogleUser(firebaseUser) {
   const photo = firebaseUser.photoURL || '';
 
   try {
-    // Check if this Google user already has an account
     let bankRows = await db('bank_accounts?google_uid=eq.' + uid + '&select=*', 'GET');
 
     if (!bankRows || !bankRows.length) {
-      // New Google user — create account automatically
       const accNo = 'G' + uid.slice(0, 9).toUpperCase();
       await db('bank_accounts', 'POST', {
         account_number: accNo,
         account_holder: name,
         balance: 10000,
-        pin: '0000', // Google users don't use PIN
+        pin: '0000',
         google_uid: uid
       });
       await db('profiles', 'POST', {
@@ -1104,7 +1078,6 @@ async function handleGoogleUser(firebaseUser) {
     const profRows = await db('profiles?account_number=eq.' + S.user.account_number + '&select=*', 'GET');
     S.profile = profRows?.[0] || null;
 
-    // Show profile photo if available
     if (photo) {
       const avEl = $('u-av');
       avEl.innerHTML = '';
@@ -1115,47 +1088,157 @@ async function handleGoogleUser(firebaseUser) {
 
     closeOv('ov-login');
     onLoggedIn();
-    showToast('Welcome, ' + name.split(' ')[0] + '!');
   } catch(e) {
     showToast('Error: ' + e.message);
   }
 }
 
-// Check if user is already signed in when page loads
+// Listen for already-signed-in Google users on page load
 auth.onAuthStateChanged(async (firebaseUser) => {
   if (firebaseUser && !S.user) {
     await handleGoogleUser(firebaseUser);
   }
 });
-async function loadProducts(){
-  const grid=$('product-grid');
-  grid.innerHTML='<div class="empty" style="grid-column:1/-1"><h3>Loading...</h3></div>';
-  try{
-    const data=await db('products?active=eq.true&select=*&order=created_at.desc','GET');
-    S.products=data||[];renderProducts();
-  }catch(e){grid.innerHTML='<div class="empty" style="grid-column:1/-1"><h3>Error: '+e.message+'</h3></div>'}
+
+// ── AUTH ─────────────────────────────────────────────────────
+async function doLogin() {
+  const acc = $('l-acc').value.trim().toUpperCase();
+  const pin = $('l-pin').value.trim();
+  const err = $('login-err');
+  err.style.display = 'none';
+  if (!acc || !pin) { err.textContent = 'Enter account and PIN'; err.style.display = 'block'; return; }
+  try {
+    const data = await db('bank_accounts?account_number=eq.' + acc + '&pin=eq.' + pin + '&select=*', 'GET');
+    if (!data || !data.length) {
+      err.textContent = 'Wrong account or PIN. Try a demo account above.';
+      err.style.display = 'block';
+      return;
+    }
+    S.user = data[0];
+    let prof = await db('profiles?account_number=eq.' + acc + '&select=*', 'GET');
+    if (!prof || !prof.length) {
+      closeOv('ov-login');
+      openOv('ov-role');
+    } else {
+      S.profile = prof[0];
+      closeOv('ov-login');
+      onLoggedIn();
+    }
+  } catch(e) {
+    err.textContent = e.message;
+    err.style.display = 'block';
+  }
 }
 
-function renderProducts(){
-  let prods=[...S.products];
-  if(S.cat!=='All') prods=prods.filter(p=>p.category===S.cat);
-  if(S.search) prods=prods.filter(p=>(p.name+p.description+p.category).toLowerCase().includes(S.search.toLowerCase()));
-  const sort=$('sort-sel')?.value||'newest';
-  if(sort==='price-asc') prods.sort((a,b)=>a.price-b.price);
-  else if(sort==='price-desc') prods.sort((a,b)=>b.price-a.price);
-  else if(sort==='rating') prods.sort((a,b)=>b.avg_rating-a.avg_rating);
-  else if(sort==='popular') prods.sort((a,b)=>b.review_count-a.review_count);
-  $('market-count').textContent=prods.length+' products';
-  const grid=$('product-grid');
-  if(!prods.length){grid.innerHTML='<div class="empty" style="grid-column:1/-1"><h3>No products found</h3><p>Try a different category or search.</p></div>';return}
-  grid.innerHTML=prods.map(p=>{
-    const isNew=(Date.now()-new Date(p.created_at))<86400000*3;
-    const hasDiscount=p.original_price&&p.original_price>p.price;
-    const badge=p.stock===0?'<span class="badge b-out">Out of Stock</span>':hasDiscount?'<span class="badge b-sale">Sale</span>':isNew?'<span class="badge b-new">New</span>':p.review_count>10?'<span class="badge b-hot">Popular</span>':'';
-    const wished=S.wishlist.includes(p.id);
-    return`<div class="pcard" onclick="openProduct('${p.id}')">
-      <img src="${p.image_url||'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400'}" alt="${p.name}" onerror="this.src='https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400'" loading="lazy">
-      <button class="wish-btn ${wished?'on':''}" onclick="event.stopPropagation();toggleWishlist('${p.id}')">${wished?'♥':'♡'}</button>
+function selRole(r) {
+  document.querySelectorAll('.role-card').forEach(c => c.classList.remove('on'));
+  $('rc-' + r).classList.add('on');
+  $('role-seller-fields').style.display = r === 'seller' ? 'block' : 'none';
+}
+
+async function saveRole() {
+  const isSeller = $('rc-seller').classList.contains('on');
+  const sname = $('r-sname').value.trim() || S.user.account_holder + "'s Store";
+  const sbio = $('r-sbio').value.trim();
+  try {
+    const p = await db('profiles', 'POST', {
+      account_number: S.user.account_number,
+      role: isSeller ? 'seller' : 'buyer',
+      store_name: isSeller ? sname : null,
+      store_bio: isSeller ? sbio : null,
+      email: ''
+    });
+    S.profile = p[0];
+    closeOv('ov-role');
+    onLoggedIn();
+  } catch(e) {
+    showToast('Error: ' + e.message);
+  }
+}
+
+function onLoggedIn() {
+  $('btn-login').style.display = 'none';
+  $('upill').style.display = 'flex';
+  $('u-av').textContent = initials(S.user.account_holder);
+  $('u-name').textContent = S.user.account_holder.split(' ')[0];
+  $('btn-wishlist').style.display = 'block';
+  $('btn-orders').style.display = 'block';
+  $('btn-sell').style.display = 'block';
+  $('notif-btn').style.display = 'flex';
+  loadWishlist();
+  checkNotifs();
+  if (S.pendingAction) { S.pendingAction(); S.pendingAction = null; }
+  showToast('Welcome, ' + S.user.account_holder.split(' ')[0] + '!');
+}
+
+function doLogout() {
+  S.user = null; S.profile = null; S.wishlist = [];
+  $('btn-login').style.display = 'block';
+  $('upill').style.display = 'none';
+  $('btn-wishlist').style.display = 'none';
+  $('btn-orders').style.display = 'none';
+  $('btn-sell').style.display = 'none';
+  $('notif-btn').style.display = 'none';
+  auth.signOut().catch(() => {});
+  closeOv('ov-user');
+  goPage('market');
+  showToast('Logged out.');
+}
+
+function openUserMenu() {
+  if (!S.user) return;
+  $('menu-av').textContent = initials(S.user.account_holder);
+  $('menu-name').textContent = S.user.account_holder;
+  $('menu-acc').textContent = S.user.account_number;
+  $('menu-bal').textContent = fmt(S.user.balance);
+  const hasStore = S.profile?.store_name;
+  $('menu-store-box').style.display = hasStore ? 'block' : 'none';
+  if (hasStore) $('menu-store-name').textContent = S.profile.store_name;
+  openOv('ov-user');
+}
+
+// ── MARKETPLACE ───────────────────────────────────────────────
+async function loadProducts() {
+  const grid = $('product-grid');
+  grid.innerHTML = '<div class="empty" style="grid-column:1/-1"><h3>Loading...</h3></div>';
+  try {
+    const data = await db('products?active=eq.true&select=*&order=created_at.desc', 'GET');
+    S.products = data || [];
+    renderProducts();
+  } catch(e) {
+    grid.innerHTML = '<div class="empty" style="grid-column:1/-1"><h3>Error: ' + e.message + '</h3></div>';
+  }
+}
+
+function renderProducts() {
+  let prods = [...S.products];
+  if (S.cat !== 'All') prods = prods.filter(p => p.category === S.cat);
+  if (S.search) prods = prods.filter(p =>
+    (p.name + p.description + p.category).toLowerCase().includes(S.search.toLowerCase())
+  );
+  const sort = $('sort-sel')?.value || 'newest';
+  if (sort === 'price-asc') prods.sort((a, b) => a.price - b.price);
+  else if (sort === 'price-desc') prods.sort((a, b) => b.price - a.price);
+  else if (sort === 'rating') prods.sort((a, b) => b.avg_rating - a.avg_rating);
+  else if (sort === 'popular') prods.sort((a, b) => b.review_count - a.review_count);
+
+  $('market-count').textContent = prods.length + ' products';
+  const grid = $('product-grid');
+  if (!prods.length) {
+    grid.innerHTML = '<div class="empty" style="grid-column:1/-1"><h3>No products found</h3><p>Try a different category or search.</p></div>';
+    return;
+  }
+  grid.innerHTML = prods.map(p => {
+    const isNew = (Date.now() - new Date(p.created_at)) < 86400000 * 3;
+    const hasDiscount = p.original_price && p.original_price > p.price;
+    const badge = p.stock === 0 ? '<span class="badge b-out">Out of Stock</span>'
+      : hasDiscount ? '<span class="badge b-sale">Sale</span>'
+      : isNew ? '<span class="badge b-new">New</span>'
+      : p.review_count > 10 ? '<span class="badge b-hot">Popular</span>' : '';
+    const wished = S.wishlist.includes(p.id);
+    return `<div class="pcard" onclick="openProduct('${p.id}')">
+      <img src="${p.image_url || 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400'}" alt="${p.name}" onerror="this.src='https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400'" loading="lazy">
+      <button class="wish-btn ${wished ? 'on' : ''}" onclick="event.stopPropagation();toggleWishlist('${p.id}')">${wished ? '♥' : '♡'}</button>
       <div class="pcard-body">
         ${badge}
         <div class="pcard-name">${p.name}</div>
@@ -1169,469 +1252,763 @@ function renderProducts(){
   }).join('');
 }
 
-function filterCat(el,cat){
-  S.cat=cat;S.search='';
-  document.querySelectorAll('.cat').forEach(b=>b.classList.remove('on'));
-  el.classList.add('on');renderProducts();
+function filterCat(el, cat) {
+  S.cat = cat; S.search = '';
+  document.querySelectorAll('.cat').forEach(b => b.classList.remove('on'));
+  el.classList.add('on');
+  renderProducts();
 }
 
-function doSearch(){S.search=$('si').value.trim();renderProducts()}
-function doSearch2(){S.search=$('si2').value.trim();goPage('market');renderProducts()}
+function doSearch() { S.search = $('si').value.trim(); renderProducts(); }
+function doSearch2() { S.search = $('si2').value.trim(); goPage('market'); renderProducts(); }
 
 // ── PRODUCT DETAIL ────────────────────────────────────────────
-async function openProduct(id){
-  const p=S.products.find(x=>x.id===id);if(!p)return;
-  S.curProduct=p;
-  $('det-img').src=p.image_url||'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600';
-  $('det-name').textContent=p.name;
-  $('det-price').textContent=fmt(p.price);
-  $('det-desc').textContent=p.description||'';
-  $('det-stars').textContent=stars(p.avg_rating);
-  $('det-rcount').textContent=p.avg_rating?p.avg_rating.toFixed(1)+' ('+p.review_count+' reviews)':'No reviews yet';
-  $('det-stock-badge').innerHTML=p.stock>0?`<span class="stock-badge in-stock">In Stock (${p.stock} left)</span>`:'<span class="stock-badge out-stock">Out of Stock</span>';
-  $('det-buy-btn').disabled=p.stock===0;
-  $('det-buy-btn').style.opacity=p.stock===0?'0.5':'1';
-  $('det-badge').innerHTML=`<span class="badge b-new">${p.category}</span>`;
-  const hasDiscount=p.original_price&&p.original_price>p.price;
-  $('det-og-price').style.display=hasDiscount?'inline':'none';
-  $('det-discount').style.display=hasDiscount?'inline':'none';
-  if(hasDiscount){
-    $('det-og-price').textContent=fmt(p.original_price);
-    const pct=Math.round((1-p.price/p.original_price)*100);
-    $('det-discount').textContent=pct+'% off';
+async function openProduct(id) {
+  const p = S.products.find(x => x.id === id);
+  if (!p) return;
+  S.curProduct = p;
+  $('det-img').src = p.image_url || 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600';
+  $('det-name').textContent = p.name;
+  $('det-price').textContent = fmt(p.price);
+  $('det-desc').textContent = p.description || '';
+  $('det-stars').textContent = stars(p.avg_rating);
+  $('det-rcount').textContent = p.avg_rating ? p.avg_rating.toFixed(1) + ' (' + p.review_count + ' reviews)' : 'No reviews yet';
+  $('det-stock-badge').innerHTML = p.stock > 0
+    ? `<span class="stock-badge in-stock">In Stock (${p.stock} left)</span>`
+    : '<span class="stock-badge out-stock">Out of Stock</span>';
+  $('det-buy-btn').disabled = p.stock === 0;
+  $('det-buy-btn').style.opacity = p.stock === 0 ? '0.5' : '1';
+  $('det-badge').innerHTML = `<span class="badge b-new">${p.category}</span>`;
+  const hasDiscount = p.original_price && p.original_price > p.price;
+  $('det-og-price').style.display = hasDiscount ? 'inline' : 'none';
+  $('det-discount').style.display = hasDiscount ? 'inline' : 'none';
+  if (hasDiscount) {
+    $('det-og-price').textContent = fmt(p.original_price);
+    const pct = Math.round((1 - p.price / p.original_price) * 100);
+    $('det-discount').textContent = pct + '% off';
   }
-  const wished=S.wishlist.includes(p.id);
-  $('det-wish-btn').textContent=wished?'♥ Remove from Wishlist':'♡ Add to Wishlist';
-  $('det-wish-btn').style.color=wished?'#b91c1c':'';
-  try{
-    const sp=await db('profiles?account_number=eq.'+p.seller_account+'&select=*','GET');
-    const sn=sp?.[0]?.store_name||p.seller_account;
-    const sb=sp?.[0]?.store_bio||'Verified seller';
-    $('det-seller-name').textContent=sn;$('det-seller-bio').textContent=sb;
-    $('det-seller-av').textContent=sn.charAt(0).toUpperCase();
-  }catch(e){$('det-seller-name').textContent=p.seller_account;$('det-seller-bio').textContent='Seller on Abhinav\'s Market'}
-  goPage('product');loadReviews(id);
-  $('rev-prod-name').textContent=p.name;
+  const wished = S.wishlist.includes(p.id);
+  $('det-wish-btn').textContent = wished ? '♥ Remove from Wishlist' : '♡ Add to Wishlist';
+  $('det-wish-btn').style.color = wished ? '#b91c1c' : '';
+  try {
+    const sp = await db('profiles?account_number=eq.' + p.seller_account + '&select=*', 'GET');
+    const sn = sp?.[0]?.store_name || p.seller_account;
+    const sb = sp?.[0]?.store_bio || 'Verified seller';
+    $('det-seller-name').textContent = sn;
+    $('det-seller-bio').textContent = sb;
+    $('det-seller-av').textContent = sn.charAt(0).toUpperCase();
+  } catch(e) {
+    $('det-seller-name').textContent = p.seller_account;
+    $('det-seller-bio').textContent = "Seller on Abhinav's Market";
+  }
+  goPage('product');
+  loadReviews(id);
+  $('rev-prod-name').textContent = p.name;
 }
 
-async function loadReviews(pid){
-  try{
-    const revs=await db('reviews?product_id=eq.'+pid+'&order=created_at.desc&select=*','GET');
-    const list=$('reviews-list');const sum=$('rev-summary');
-    if(!revs||!revs.length){list.innerHTML='<div class="empty"><p>No reviews yet. Be the first!</p></div>';sum.style.display='none';return}
-    const avg=revs.reduce((a,r)=>a+r.rating,0)/revs.length;
-    sum.style.display='flex';
-    sum.innerHTML=`<div style="text-align:center"><div class="rev-big-num">${avg.toFixed(1)}</div><div class="rev-big-stars">${stars(avg)}</div><div class="rev-big-count">${revs.length} reviews</div></div>`;
-    list.innerHTML=revs.map(r=>`<div class="rev-card"><div class="rev-top"><span class="rev-name">${r.buyer_name}</span><span class="stars">${stars(r.rating)} <span style="color:#aaa;font-size:11px">${r.rating}/5</span></span></div><div class="rev-text">${r.comment||''}</div><div class="rev-date">${fmtDate(r.created_at)}</div></div>`).join('');
-  }catch(e){}
+async function loadReviews(pid) {
+  try {
+    const revs = await db('reviews?product_id=eq.' + pid + '&order=created_at.desc&select=*', 'GET');
+    const list = $('reviews-list');
+    const sum = $('rev-summary');
+    if (!revs || !revs.length) {
+      list.innerHTML = '<div class="empty"><p>No reviews yet. Be the first!</p></div>';
+      sum.style.display = 'none';
+      return;
+    }
+    const avg = revs.reduce((a, r) => a + r.rating, 0) / revs.length;
+    sum.style.display = 'flex';
+    sum.innerHTML = `<div style="text-align:center"><div class="rev-big-num">${avg.toFixed(1)}</div><div class="rev-big-stars">${stars(avg)}</div><div class="rev-big-count">${revs.length} reviews</div></div>`;
+    list.innerHTML = revs.map(r =>
+      `<div class="rev-card"><div class="rev-top"><span class="rev-name">${r.buyer_name}</span><span class="stars">${stars(r.rating)} <span style="color:#aaa;font-size:11px">${r.rating}/5</span></span></div><div class="rev-text">${r.comment || ''}</div><div class="rev-date">${fmtDate(r.created_at)}</div></div>`
+    ).join('');
+  } catch(e) {}
 }
 
-function buyCurrentProduct(){requireLogin(()=>{if(S.curProduct)openPayment(S.curProduct)})}
+function buyCurrentProduct() {
+  requireLogin(() => { if (S.curProduct) openPayment(S.curProduct); });
+}
 
 // ── WISHLIST ─────────────────────────────────────────────────
-async function loadWishlist(){
-  if(!S.user)return;
-  try{
-    const w=await db('wishlist?account_number=eq.'+S.user.account_number+'&select=product_id','GET');
-    S.wishlist=(w||[]).map(x=>x.product_id);
-  }catch(e){}
+async function loadWishlist() {
+  if (!S.user) return;
+  try {
+    const w = await db('wishlist?account_number=eq.' + S.user.account_number + '&select=product_id', 'GET');
+    S.wishlist = (w || []).map(x => x.product_id);
+  } catch(e) {}
 }
 
-async function toggleWishlist(id){
-  if(!S.user){openLogin();return}
-  const inW=S.wishlist.includes(id);
-  try{
-    if(inW){await db('wishlist?account_number=eq.'+S.user.account_number+'&product_id=eq.'+id,'DELETE');S.wishlist=S.wishlist.filter(x=>x!==id);showToast('Removed from wishlist')}
-    else{await db('wishlist','POST',{account_number:S.user.account_number,product_id:id});S.wishlist.push(id);showToast('Added to wishlist!')}
+async function toggleWishlist(id) {
+  if (!S.user) { openLogin(); return; }
+  const inW = S.wishlist.includes(id);
+  try {
+    if (inW) {
+      await db('wishlist?account_number=eq.' + S.user.account_number + '&product_id=eq.' + id, 'DELETE');
+      S.wishlist = S.wishlist.filter(x => x !== id);
+      showToast('Removed from wishlist');
+    } else {
+      await db('wishlist', 'POST', {account_number: S.user.account_number, product_id: id});
+      S.wishlist.push(id);
+      showToast('Added to wishlist!');
+    }
     renderProducts();
-  }catch(e){showToast(e.message)}
+  } catch(e) {
+    showToast(e.message);
+  }
 }
 
-async function toggleWishlistCurrent(){
-  if(!S.curProduct)return;
+async function toggleWishlistCurrent() {
+  if (!S.curProduct) return;
   await toggleWishlist(S.curProduct.id);
-  const wished=S.wishlist.includes(S.curProduct.id);
-  $('det-wish-btn').textContent=wished?'♥ Remove from Wishlist':'♡ Add to Wishlist';
-  $('det-wish-btn').style.color=wished?'#b91c1c':'';
+  const wished = S.wishlist.includes(S.curProduct.id);
+  $('det-wish-btn').textContent = wished ? '♥ Remove from Wishlist' : '♡ Add to Wishlist';
+  $('det-wish-btn').style.color = wished ? '#b91c1c' : '';
 }
 
-async function loadWishlistPage(){
-  if(!S.user)return;
-  const grid=$('wish-grid');
-  grid.innerHTML='<div class="empty" style="grid-column:1/-1"><h3>Loading...</h3></div>';
-  try{
-    const w=await db('wishlist?account_number=eq.'+S.user.account_number+'&select=product_id','GET');
-    const ids=(w||[]).map(x=>x.product_id);
-    if(!ids.length){grid.innerHTML='<div class="empty" style="grid-column:1/-1"><h3>Wishlist empty</h3><p>Heart products to save them here.</p></div>';return}
-    const prods=S.products.filter(p=>ids.includes(p.id));
-    grid.innerHTML=prods.map(p=>`<div class="pcard" onclick="openProduct('${p.id}')">
-      <img src="${p.image_url||'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400'}" alt="${p.name}" style="height:140px;object-fit:cover;width:100%">
-      <div class="pcard-body"><div class="pcard-name">${p.name}</div><div class="pcard-foot"><span class="pprice">${fmt(p.price)}</span><button onclick="event.stopPropagation();toggleWishlist('${p.id}')" style="font-size:18px;background:none;border:none;cursor:pointer;color:#ef4444">♥</button></div></div>
-    </div>`).join('');
-  }catch(e){grid.innerHTML='<div class="empty" style="grid-column:1/-1"><h3>Error loading</h3></div>'}
+async function loadWishlistPage() {
+  if (!S.user) return;
+  const grid = $('wish-grid');
+  grid.innerHTML = '<div class="empty" style="grid-column:1/-1"><h3>Loading...</h3></div>';
+  try {
+    const w = await db('wishlist?account_number=eq.' + S.user.account_number + '&select=product_id', 'GET');
+    const ids = (w || []).map(x => x.product_id);
+    if (!ids.length) {
+      grid.innerHTML = '<div class="empty" style="grid-column:1/-1"><h3>Wishlist empty</h3><p>Heart products to save them here.</p></div>';
+      return;
+    }
+    const prods = S.products.filter(p => ids.includes(p.id));
+    grid.innerHTML = prods.map(p =>
+      `<div class="pcard" onclick="openProduct('${p.id}')">
+        <img src="${p.image_url || 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400'}" alt="${p.name}" style="height:140px;object-fit:cover;width:100%">
+        <div class="pcard-body"><div class="pcard-name">${p.name}</div><div class="pcard-foot"><span class="pprice">${fmt(p.price)}</span><button onclick="event.stopPropagation();toggleWishlist('${p.id}')" style="font-size:18px;background:none;border:none;cursor:pointer;color:#ef4444">♥</button></div></div>
+      </div>`
+    ).join('');
+  } catch(e) {
+    grid.innerHTML = '<div class="empty" style="grid-column:1/-1"><h3>Error loading</h3></div>';
+  }
 }
 
 // ── PAYMENT ───────────────────────────────────────────────────
-function openPayment(product){
-  S.pay={product,discount:0,couponCode:''};
-  $('pay-pname').textContent=product.name;
-  $('pay-seller').textContent=product.seller_account;
-  $('pay-total').textContent=fmt(product.price);
-  $('pay-acc-name').textContent=S.user.account_holder+' ('+S.user.account_number+')';
-  $('pay-acc-bal').textContent='Balance: '+fmt(S.user.balance);
-  $('pay-pin').value='';$('pay-err').style.display='none';
-  $('coupon-input').value='';$('coupon-ok').style.display='none';
-  $('pay-disc-row').style.display='none';
-  $('pay-confirm').style.display='block';
-  $('pay-proc').classList.remove('on');$('pay-suc').classList.remove('on');
-  $('pay-insuf').style.display=S.user.balance<product.price?'block':'none';
-  $('pay-btn').disabled=S.user.balance<product.price;
+function openPayment(product) {
+  S.pay = {product, discount: 0, couponCode: ''};
+  $('pay-pname').textContent = product.name;
+  $('pay-seller').textContent = product.seller_account;
+  $('pay-total').textContent = fmt(product.price);
+  $('pay-acc-name').textContent = S.user.account_holder + ' (' + S.user.account_number + ')';
+  $('pay-acc-bal').textContent = 'Balance: ' + fmt(S.user.balance);
+  $('pay-pin').value = '';
+  $('pay-err').style.display = 'none';
+  $('coupon-input').value = '';
+  $('coupon-ok').style.display = 'none';
+  $('pay-disc-row').style.display = 'none';
+  $('pay-confirm').style.display = 'block';
+  $('pay-proc').classList.remove('on');
+  $('pay-suc').classList.remove('on');
+  $('pay-insuf').style.display = S.user.balance < product.price ? 'block' : 'none';
+  $('pay-btn').disabled = S.user.balance < product.price;
   openOv('ov-pay');
 }
 
-async function applyCoupon(){
-  const code=$('coupon-input').value.trim().toUpperCase();
-  if(!code)return;
-  try{
-    const data=await db('coupons?code=eq.'+code+'&active=eq.true&select=*','GET');
-    if(!data||!data.length){showToast('Invalid or expired coupon');return}
-    const c=data[0];
-    if(c.used_count>=c.max_uses){showToast('Coupon usage limit reached');return}
-    const disc=Math.floor(S.pay.product.price*c.discount_pct/100);
-    S.pay.discount=disc;S.pay.couponCode=code;
-    const newTotal=S.pay.product.price-disc;
-    $('pay-total').textContent=fmt(newTotal);
-    $('pay-disc-row').style.display='flex';
-    $('pay-disc-amt').textContent='-'+fmt(disc)+' ('+c.discount_pct+'% off)';
-    $('coupon-ok').textContent='Coupon applied! You save '+fmt(disc);
-    $('coupon-ok').style.display='block';
-    $('pay-insuf').style.display=S.user.balance<newTotal?'block':'none';
-    $('pay-btn').disabled=S.user.balance<newTotal;
-    showToast('Coupon applied: '+c.discount_pct+'% off!');
-  }catch(e){showToast(e.message)}
+async function applyCoupon() {
+  const code = $('coupon-input').value.trim().toUpperCase();
+  if (!code) return;
+  try {
+    const data = await db('coupons?code=eq.' + code + '&active=eq.true&select=*', 'GET');
+    if (!data || !data.length) { showToast('Invalid or expired coupon'); return; }
+    const c = data[0];
+    if (c.used_count >= c.max_uses) { showToast('Coupon usage limit reached'); return; }
+    const disc = Math.floor(S.pay.product.price * c.discount_pct / 100);
+    S.pay.discount = disc; S.pay.couponCode = code;
+    const newTotal = S.pay.product.price - disc;
+    $('pay-total').textContent = fmt(newTotal);
+    $('pay-disc-row').style.display = 'flex';
+    $('pay-disc-amt').textContent = '-' + fmt(disc) + ' (' + c.discount_pct + '% off)';
+    $('coupon-ok').textContent = 'Coupon applied! You save ' + fmt(disc);
+    $('coupon-ok').style.display = 'block';
+    $('pay-insuf').style.display = S.user.balance < newTotal ? 'block' : 'none';
+    $('pay-btn').disabled = S.user.balance < newTotal;
+    showToast('Coupon applied: ' + c.discount_pct + '% off!');
+  } catch(e) {
+    showToast(e.message);
+  }
 }
 
-async function confirmPay(){
-  const pin=$('pay-pin').value.trim();
-  const err=$('pay-err');err.style.display='none';
-  if(pin!==String(S.user.pin)){err.textContent='Wrong PIN';err.style.display='block';return}
-  $('pay-confirm').style.display='none';$('pay-proc').classList.add('on');
-  await new Promise(r=>setTimeout(r,1800));
-  try{
-    const p=S.pay.product;
-    const finalAmt=p.price-S.pay.discount;
-    const newBal=S.user.balance-finalAmt;
-    const oid='ORD'+Date.now();
-    await db('bank_accounts?account_number=eq.'+S.user.account_number,'PATCH',{balance:newBal});
-    const sRows=await db('bank_accounts?account_number=eq.'+p.seller_account+'&select=balance','GET');
-    await db('bank_accounts?account_number=eq.'+p.seller_account,'PATCH',{balance:sRows[0].balance+finalAmt});
-    await db('products?id=eq.'+p.id,'PATCH',{stock:Math.max(0,p.stock-1)});
-    await db('transactions','POST',{from_account:S.user.account_number,to_account:p.seller_account,amount:finalAmt,description:'Purchase: '+p.name,status:'success'});
-    await db('orders','POST',{order_id:oid,product_id:p.id,product_name:p.name,price:finalAmt,buyer_account:S.user.account_number,buyer_name:S.user.account_holder,seller_account:p.seller_account,status:'confirmed'});
-    if(S.pay.couponCode) await db('coupons?code=eq.'+S.pay.couponCode,'PATCH',{used_count:0}).catch(()=>{});
-    // Notify seller
-    await db('notifications','POST',{account_number:p.seller_account,message:'New order! '+S.user.account_holder+' bought "'+p.name+'" for '+fmt(finalAmt),type:'order'}).catch(()=>{});
-    S.user.balance=newBal;
-    const idx=S.products.findIndex(x=>x.id===p.id);
-    if(idx>=0) S.products[idx].stock=Math.max(0,S.products[idx].stock-1);
-    $('pay-proc').classList.remove('on');$('pay-suc').classList.add('on');
-    $('s-oid').textContent=oid;$('s-prod').textContent=p.name;
-    $('s-amt').textContent=fmt(finalAmt);$('s-from').textContent=S.user.account_number;
-    $('s-to').textContent=p.seller_account;$('s-time').textContent=new Date().toLocaleTimeString('en-IN');
-    $('s-newbal').textContent='New balance: '+fmt(newBal);
-    $('u-av').textContent=initials(S.user.account_holder);
-  }catch(e){
-    $('pay-proc').classList.remove('on');$('pay-confirm').style.display='block';
-    err.textContent='Payment failed: '+e.message;err.style.display='block';
+async function confirmPay() {
+  const pin = $('pay-pin').value.trim();
+  const err = $('pay-err');
+  err.style.display = 'none';
+  if (pin !== String(S.user.pin)) { err.textContent = 'Wrong PIN'; err.style.display = 'block'; return; }
+  $('pay-confirm').style.display = 'none';
+  $('pay-proc').classList.add('on');
+  await new Promise(r => setTimeout(r, 1800));
+  try {
+    const p = S.pay.product;
+    const finalAmt = p.price - S.pay.discount;
+    const newBal = S.user.balance - finalAmt;
+    const oid = 'ORD' + Date.now();
+    await db('bank_accounts?account_number=eq.' + S.user.account_number, 'PATCH', {balance: newBal});
+    const sRows = await db('bank_accounts?account_number=eq.' + p.seller_account + '&select=balance', 'GET');
+    await db('bank_accounts?account_number=eq.' + p.seller_account, 'PATCH', {balance: sRows[0].balance + finalAmt});
+    await db('products?id=eq.' + p.id, 'PATCH', {stock: Math.max(0, p.stock - 1)});
+    await db('transactions', 'POST', {
+      from_account: S.user.account_number,
+      to_account: p.seller_account,
+      amount: finalAmt,
+      description: 'Purchase: ' + p.name,
+      status: 'success'
+    });
+    await db('orders', 'POST', {
+      order_id: oid,
+      product_id: p.id,
+      product_name: p.name,
+      price: finalAmt,
+      buyer_account: S.user.account_number,
+      buyer_name: S.user.account_holder,
+      seller_account: p.seller_account,
+      status: 'confirmed'
+    });
+    if (S.pay.couponCode) {
+      await db('coupons?code=eq.' + S.pay.couponCode, 'PATCH', {used_count: 0}).catch(() => {});
+    }
+    await db('notifications', 'POST', {
+      account_number: p.seller_account,
+      message: 'New order! ' + S.user.account_holder + ' bought "' + p.name + '" for ' + fmt(finalAmt),
+      type: 'order'
+    }).catch(() => {});
+    S.user.balance = newBal;
+    const idx = S.products.findIndex(x => x.id === p.id);
+    if (idx >= 0) S.products[idx].stock = Math.max(0, S.products[idx].stock - 1);
+    $('pay-proc').classList.remove('on');
+    $('pay-suc').classList.add('on');
+    $('s-oid').textContent = oid;
+    $('s-prod').textContent = p.name;
+    $('s-amt').textContent = fmt(finalAmt);
+    $('s-from').textContent = S.user.account_number;
+    $('s-to').textContent = p.seller_account;
+    $('s-time').textContent = new Date().toLocaleTimeString('en-IN');
+    $('s-newbal').textContent = 'New balance: ' + fmt(newBal);
+    $('u-av').textContent = initials(S.user.account_holder);
+  } catch(e) {
+    $('pay-proc').classList.remove('on');
+    $('pay-confirm').style.display = 'block';
+    err.textContent = 'Payment failed: ' + e.message;
+    err.style.display = 'block';
   }
 }
 
 // ── REVIEWS ──────────────────────────────────────────────────
-function openReviewModal(){if(!S.curProduct)return;S.reviewRating=0;$('rev-text').value='';$('rev-err').style.display='none';document.querySelectorAll('#star-input span').forEach(s=>s.classList.remove('on'));openOv('ov-review')}
-function setRating(n){S.reviewRating=n;document.querySelectorAll('#star-input span').forEach((s,i)=>s.classList.toggle('on',i<n))}
-async function submitReview(){
-  const err=$('rev-err');err.style.display='none';
-  if(!S.reviewRating){err.textContent='Please select a rating';err.style.display='block';return}
-  try{
-    await db('reviews','POST',{product_id:S.curProduct.id,buyer_account:S.user.account_number,buyer_name:S.user.account_holder,rating:S.reviewRating,comment:$('rev-text').value.trim()});
-    const revs=await db('reviews?product_id=eq.'+S.curProduct.id+'&select=rating','GET');
-    const avg=revs.reduce((a,r)=>a+r.rating,0)/revs.length;
-    await db('products?id=eq.'+S.curProduct.id,'PATCH',{avg_rating:+avg.toFixed(1),review_count:revs.length});
-    const idx=S.products.findIndex(x=>x.id===S.curProduct.id);
-    if(idx>=0){S.products[idx].avg_rating=+avg.toFixed(1);S.products[idx].review_count=revs.length}
-    closeOv('ov-review');loadReviews(S.curProduct.id);showToast('Review submitted!');
-  }catch(e){err.textContent=e.message;err.style.display='block'}
+function openReviewModal() {
+  if (!S.curProduct) return;
+  S.reviewRating = 0;
+  $('rev-text').value = '';
+  $('rev-err').style.display = 'none';
+  document.querySelectorAll('#star-input span').forEach(s => s.classList.remove('on'));
+  openOv('ov-review');
+}
+
+function setRating(n) {
+  S.reviewRating = n;
+  document.querySelectorAll('#star-input span').forEach((s, i) => s.classList.toggle('on', i < n));
+}
+
+async function submitReview() {
+  const err = $('rev-err');
+  err.style.display = 'none';
+  if (!S.reviewRating) { err.textContent = 'Please select a rating'; err.style.display = 'block'; return; }
+  try {
+    await db('reviews', 'POST', {
+      product_id: S.curProduct.id,
+      buyer_account: S.user.account_number,
+      buyer_name: S.user.account_holder,
+      rating: S.reviewRating,
+      comment: $('rev-text').value.trim()
+    });
+    const revs = await db('reviews?product_id=eq.' + S.curProduct.id + '&select=rating', 'GET');
+    const avg = revs.reduce((a, r) => a + r.rating, 0) / revs.length;
+    await db('products?id=eq.' + S.curProduct.id, 'PATCH', {
+      avg_rating: +avg.toFixed(1),
+      review_count: revs.length
+    });
+    const idx = S.products.findIndex(x => x.id === S.curProduct.id);
+    if (idx >= 0) {
+      S.products[idx].avg_rating = +avg.toFixed(1);
+      S.products[idx].review_count = revs.length;
+    }
+    closeOv('ov-review');
+    loadReviews(S.curProduct.id);
+    showToast('Review submitted!');
+  } catch(e) {
+    err.textContent = e.message;
+    err.style.display = 'block';
+  }
 }
 
 // ── TOP UP ───────────────────────────────────────────────────
-function openTopup(){$('topup-cur-bal').textContent=fmt(S.user.balance);$('topup-err').style.display='none';$('topup-ok').style.display='none';$('topup-pin').value='';$('topup-custom').value='';document.querySelectorAll('.topup-opt').forEach(o=>o.classList.remove('on'));S.selectedTopup=0;openOv('ov-topup')}
-function selTopup(n){S.selectedTopup=n;document.querySelectorAll('.topup-opt').forEach(o=>o.classList.remove('on'));event.currentTarget.classList.add('on');$('topup-custom').value=''}
-async function doTopup(){
-  const amt=parseInt($('topup-custom').value)||S.selectedTopup;
-  const pin=$('topup-pin').value.trim();
-  const err=$('topup-err');const ok=$('topup-ok');
-  err.style.display='none';ok.style.display='none';
-  if(!amt||amt<1){err.textContent='Select or enter an amount';err.style.display='block';return}
-  if(pin!==String(S.user.pin)){err.textContent='Wrong PIN';err.style.display='block';return}
-  try{
-    const newBal=S.user.balance+amt;
-    await db('bank_accounts?account_number=eq.'+S.user.account_number,'PATCH',{balance:newBal});
-    await db('wallet_topups','POST',{account_number:S.user.account_number,amount:amt});
-    S.user.balance=newBal;
-    $('topup-cur-bal').textContent=fmt(newBal);
-    ok.textContent=fmt(amt)+' added! New balance: '+fmt(newBal);ok.style.display='block';
-    showToast('Balance topped up: +'+fmt(amt));
-    setTimeout(()=>{closeOv('ov-topup')},2000);
-  }catch(e){err.textContent=e.message;err.style.display='block'}
+function openTopup() {
+  $('topup-cur-bal').textContent = fmt(S.user.balance);
+  $('topup-err').style.display = 'none';
+  $('topup-ok').style.display = 'none';
+  $('topup-pin').value = '';
+  $('topup-custom').value = '';
+  document.querySelectorAll('.topup-opt').forEach(o => o.classList.remove('on'));
+  S.selectedTopup = 0;
+  openOv('ov-topup');
+}
+
+function selTopup(n, el) {
+  S.selectedTopup = n;
+  document.querySelectorAll('.topup-opt').forEach(o => o.classList.remove('on'));
+  el.classList.add('on');
+  $('topup-custom').value = '';
+}
+
+async function doTopup() {
+  const amt = parseInt($('topup-custom').value) || S.selectedTopup;
+  const pin = $('topup-pin').value.trim();
+  const err = $('topup-err');
+  const ok = $('topup-ok');
+  err.style.display = 'none';
+  ok.style.display = 'none';
+  if (!amt || amt < 1) { err.textContent = 'Select or enter an amount'; err.style.display = 'block'; return; }
+  if (pin !== String(S.user.pin)) { err.textContent = 'Wrong PIN'; err.style.display = 'block'; return; }
+  try {
+    const newBal = S.user.balance + amt;
+    await db('bank_accounts?account_number=eq.' + S.user.account_number, 'PATCH', {balance: newBal});
+    await db('wallet_topups', 'POST', {account_number: S.user.account_number, amount: amt}).catch(() => {});
+    S.user.balance = newBal;
+    $('topup-cur-bal').textContent = fmt(newBal);
+    ok.textContent = fmt(amt) + ' added! New balance: ' + fmt(newBal);
+    ok.style.display = 'block';
+    showToast('Balance topped up: +' + fmt(amt));
+    setTimeout(() => closeOv('ov-topup'), 2000);
+  } catch(e) {
+    err.textContent = e.message;
+    err.style.display = 'block';
+  }
 }
 
 // ── NOTIFICATIONS ────────────────────────────────────────────
-async function checkNotifs(){
-  if(!S.user)return;
-  try{
-    const n=await db('notifications?account_number=eq.'+S.user.account_number+'&read=eq.false&select=id','GET');
-    const dot=$('notif-dot');dot.style.display=(n&&n.length)?'block':'none';
-  }catch(e){}
+async function checkNotifs() {
+  if (!S.user) return;
+  try {
+    const n = await db('notifications?account_number=eq.' + S.user.account_number + '&read=eq.false&select=id', 'GET');
+    const dot = $('notif-dot');
+    dot.style.display = (n && n.length) ? 'block' : 'none';
+  } catch(e) {}
 }
 
-async function openNotifs(){
-  try{
-    const notifs=await db('notifications?account_number=eq.'+S.user.account_number+'&order=created_at.desc&select=*','GET');
-    const list=$('notifs-list');
-    if(!notifs||!notifs.length){list.innerHTML='<div class="empty" style="padding:30px"><h3>No notifications yet</h3></div>'}
-    else{
-      list.innerHTML=notifs.map(n=>`<div class="notif-item ${n.read?'':'unread'}">
-        <div class="notif-dot2" style="background:${n.type==='order'?'#f59e0b':n.type==='info'?'#3b82f6':'#22c55e'}"></div>
-        <div><div class="notif-text">${n.message}</div><div class="notif-time">${fmtDate(n.created_at)}</div></div>
-      </div>`).join('');
-      // Mark all as read
-      await db('notifications?account_number=eq.'+S.user.account_number,'PATCH',{read:true}).catch(()=>{});
-      $('notif-dot').style.display='none';
+async function openNotifs() {
+  try {
+    const notifs = await db('notifications?account_number=eq.' + S.user.account_number + '&order=created_at.desc&select=*', 'GET');
+    const list = $('notifs-list');
+    if (!notifs || !notifs.length) {
+      list.innerHTML = '<div class="empty" style="padding:30px"><h3>No notifications yet</h3></div>';
+    } else {
+      list.innerHTML = notifs.map(n =>
+        `<div class="notif-item ${n.read ? '' : 'unread'}">
+          <div class="notif-dot2" style="background:${n.type === 'order' ? '#f59e0b' : n.type === 'info' ? '#3b82f6' : '#22c55e'}"></div>
+          <div><div class="notif-text">${n.message}</div><div class="notif-time">${fmtDate(n.created_at)}</div></div>
+        </div>`
+      ).join('');
+      await db('notifications?account_number=eq.' + S.user.account_number, 'PATCH', {read: true}).catch(() => {});
+      $('notif-dot').style.display = 'none';
     }
     openOv('ov-notifs');
-  }catch(e){showToast(e.message)}
+  } catch(e) {
+    showToast(e.message);
+  }
 }
 
 // ── TRANSACTIONS ─────────────────────────────────────────────
-async function loadTxns(){
-  if(!S.user)return;
-  try{
-    const txns=await db('transactions?or=(from_account.eq.'+S.user.account_number+',to_account.eq.'+S.user.account_number+')&order=created_at.desc&select=*','GET');
-    const list=$('txns-list');
-    if(!txns||!txns.length){list.innerHTML='<div class="empty"><h3>No transactions yet</h3></div>';return}
-    list.innerHTML=txns.map(t=>{
-      const isOut=t.from_account===S.user.account_number;
-      return`<div class="txn-item">
-        <div class="txn-icon ${isOut?'out':'in'}">${isOut?'↑':'↓'}</div>
-        <div class="txn-info"><div class="txn-desc">${t.description||'Transaction'}</div><div class="txn-sub">${isOut?'To: '+t.to_account:'From: '+t.from_account} · ${fmtDate(t.created_at)}</div></div>
-        <div class="txn-amt ${isOut?'out':'in'}">${isOut?'-':'+'} ${fmt(t.amount)}</div>
+async function loadTxns() {
+  if (!S.user) return;
+  try {
+    const txns = await db(
+      'transactions?or=(from_account.eq.' + S.user.account_number + ',to_account.eq.' + S.user.account_number + ')&order=created_at.desc&select=*',
+      'GET'
+    );
+    const list = $('txns-list');
+    if (!txns || !txns.length) {
+      list.innerHTML = '<div class="empty"><h3>No transactions yet</h3></div>';
+      return;
+    }
+    list.innerHTML = txns.map(t => {
+      const isOut = t.from_account === S.user.account_number;
+      return `<div class="txn-item">
+        <div class="txn-icon ${isOut ? 'out' : 'in'}">${isOut ? '↑' : '↓'}</div>
+        <div class="txn-info"><div class="txn-desc">${t.description || 'Transaction'}</div><div class="txn-sub">${isOut ? 'To: ' + t.to_account : 'From: ' + t.from_account} · ${fmtDate(t.created_at)}</div></div>
+        <div class="txn-amt ${isOut ? 'out' : 'in'}">${isOut ? '-' : '+'} ${fmt(t.amount)}</div>
       </div>`;
     }).join('');
-  }catch(e){showToast(e.message)}
+  } catch(e) {
+    showToast(e.message);
+  }
 }
 
 // ── MY ORDERS ────────────────────────────────────────────────
-async function loadMyOrders(){
-  if(!S.user)return;
-  try{
-    const orders=await db('orders?buyer_account=eq.'+S.user.account_number+'&select=*&order=created_at.desc','GET');
-    const list=$('my-orders-list');
-    if(!orders||!orders.length){list.innerHTML='<div class="empty"><h3>No orders yet</h3><p>Go shop something!</p></div>';return}
-    list.innerHTML=orders.map(o=>`<div class="order-item">
-      <div class="order-info"><div class="order-name">${o.product_name}</div><div class="order-meta">ID: ${o.order_id?.slice(-8)} · Seller: ${o.seller_account} · ${fmtDate(o.created_at)}</div></div>
-      <div class="order-right"><div class="order-price">${fmt(o.price)}</div><span class="pill ${o.status==='delivered'?'p-green':o.status==='shipped'?'p-blue':'p-yellow'}">${o.status}</span></div>
-    </div>`).join('');
-  }catch(e){showToast(e.message)}
+async function loadMyOrders() {
+  if (!S.user) return;
+  try {
+    const orders = await db('orders?buyer_account=eq.' + S.user.account_number + '&select=*&order=created_at.desc', 'GET');
+    const list = $('my-orders-list');
+    if (!orders || !orders.length) {
+      list.innerHTML = '<div class="empty"><h3>No orders yet</h3><p>Go shop something!</p></div>';
+      return;
+    }
+    list.innerHTML = orders.map(o =>
+      `<div class="order-item">
+        <div class="order-info"><div class="order-name">${o.product_name}</div><div class="order-meta">ID: ${o.order_id?.slice(-8)} · Seller: ${o.seller_account} · ${fmtDate(o.created_at)}</div></div>
+        <div class="order-right"><div class="order-price">${fmt(o.price)}</div><span class="pill ${o.status === 'delivered' ? 'p-green' : o.status === 'shipped' ? 'p-blue' : 'p-yellow'}">${o.status}</span></div>
+      </div>`
+    ).join('');
+  } catch(e) {
+    showToast(e.message);
+  }
 }
 
 // ── SELLER PROFILE ───────────────────────────────────────────
-async function openSellerProfile(){
-  if(!S.curProduct)return;
-  try{
-    const acc=S.curProduct.seller_account;
-    const [prof,bankRow,orders,prods]=await Promise.all([
-      db('profiles?account_number=eq.'+acc+'&select=*','GET'),
-      db('bank_accounts?account_number=eq.'+acc+'&select=account_holder','GET'),
-      db('orders?seller_account=eq.'+acc+'&select=id','GET'),
-      db('products?seller_account=eq.'+acc+'&active=eq.true&select=*','GET')
+async function openSellerProfile() {
+  if (!S.curProduct) return;
+  try {
+    const acc = S.curProduct.seller_account;
+    const [prof, bankRow, orders, prods] = await Promise.all([
+      db('profiles?account_number=eq.' + acc + '&select=*', 'GET'),
+      db('bank_accounts?account_number=eq.' + acc + '&select=account_holder', 'GET'),
+      db('orders?seller_account=eq.' + acc + '&select=id', 'GET'),
+      db('products?seller_account=eq.' + acc + '&active=eq.true&select=*', 'GET')
     ]);
-    const sn=prof?.[0]?.store_name||acc;
-    const sb=prof?.[0]?.store_bio||'Seller on Abhinav\'s Market';
-    $('sp-av').textContent=sn.charAt(0).toUpperCase();
-    $('sp-name').textContent=sn;$('sp-bio').textContent=sb;
-    $('sp-stats').innerHTML=`
-      <div class="stat"><div class="stat-lbl">Products</div><div class="stat-val">${(prods||[]).length}</div></div>
-      <div class="stat"><div class="stat-lbl">Total Sales</div><div class="stat-val">${(orders||[]).length}</div></div>`;
-    $('sp-products').innerHTML=(prods||[]).slice(0,4).map(p=>`<div class="pcard" onclick="closeOv('ov-seller-profile');openProduct('${p.id}')">
-      <img src="${p.image_url||'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400'}" alt="${p.name}" style="height:100px;object-fit:cover;width:100%">
-      <div class="pcard-body"><div class="pcard-name" style="font-size:12px">${p.name}</div><div class="pprice" style="font-size:13px">${fmt(p.price)}</div></div>
-    </div>`).join('');
+    const sn = prof?.[0]?.store_name || acc;
+    const sb = prof?.[0]?.store_bio || "Seller on Abhinav's Market";
+    $('sp-av').textContent = sn.charAt(0).toUpperCase();
+    $('sp-name').textContent = sn;
+    $('sp-bio').textContent = sb;
+    $('sp-stats').innerHTML = `
+      <div class="stat"><div class="stat-lbl">Products</div><div class="stat-val">${(prods || []).length}</div></div>
+      <div class="stat"><div class="stat-lbl">Total Sales</div><div class="stat-val">${(orders || []).length}</div></div>`;
+    $('sp-products').innerHTML = (prods || []).slice(0, 4).map(p =>
+      `<div class="pcard" onclick="closeOv('ov-seller-profile');openProduct('${p.id}')">
+        <img src="${p.image_url || 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400'}" alt="${p.name}" style="height:100px;object-fit:cover;width:100%">
+        <div class="pcard-body"><div class="pcard-name" style="font-size:12px">${p.name}</div><div class="pprice" style="font-size:13px">${fmt(p.price)}</div></div>
+      </div>`
+    ).join('');
     openOv('ov-seller-profile');
-  }catch(e){showToast(e.message)}
+  } catch(e) {
+    showToast(e.message);
+  }
 }
 
 // ── SELLER DASHBOARD ─────────────────────────────────────────
-function sellerTab(t){
-  ['overview','products','add','orders'].forEach(x=>{
-    $('tab-'+x).style.display=x===t?'block':'none';
-    const sb=$('sb-'+x);if(sb)sb.classList.toggle('on',x===t);
+function sellerTab(t) {
+  ['overview', 'products', 'add', 'orders'].forEach(x => {
+    $('tab-' + x).style.display = x === t ? 'block' : 'none';
+    const sb = $('sb-' + x);
+    if (sb) sb.classList.toggle('on', x === t);
   });
-  document.querySelectorAll('.mdt').forEach((b,i)=>{const tabs=['overview','products','add','orders'];b.classList.toggle('on',tabs[i]===t)});
-  if(t==='products') loadSellerProducts();
-  if(t==='orders') loadSellerOrders();
+  document.querySelectorAll('.mdt').forEach((b, i) => {
+    const tabs = ['overview', 'products', 'add', 'orders'];
+    b.classList.toggle('on', tabs[i] === t);
+  });
+  if (t === 'products') loadSellerProducts();
+  if (t === 'orders') loadSellerOrders();
 }
 
-async function loadSellerDash(){
-  if(!S.user||S.profile?.role!=='seller')return;
-  $('sb-store-name').textContent=S.profile.store_name||'My Store';
-  $('sb-role-lbl').textContent='Seller Dashboard';
+async function loadSellerDash() {
+  if (!S.user || S.profile?.role !== 'seller') return;
+  $('sb-store-name').textContent = S.profile.store_name || 'My Store';
+  $('sb-role-lbl').textContent = 'Seller Dashboard';
   sellerTab('overview');
-  try{
-    const [orders,prods,bankRow]=await Promise.all([
-      db('orders?seller_account=eq.'+S.user.account_number+'&select=*&order=created_at.desc','GET'),
-      db('products?seller_account=eq.'+S.user.account_number+'&select=*','GET'),
-      db('bank_accounts?account_number=eq.'+S.user.account_number+'&select=balance','GET')
+  try {
+    const [orders, prods, bankRow] = await Promise.all([
+      db('orders?seller_account=eq.' + S.user.account_number + '&select=*&order=created_at.desc', 'GET'),
+      db('products?seller_account=eq.' + S.user.account_number + '&select=*', 'GET'),
+      db('bank_accounts?account_number=eq.' + S.user.account_number + '&select=balance', 'GET')
     ]);
-    const rev=(orders||[]).reduce((a,o)=>a+o.price,0);
-    $('st-rev').textContent=fmt(rev);$('st-orders').textContent=(orders||[]).length;
-    $('st-prods').textContent=(prods||[]).length;$('st-bal').textContent=fmt(bankRow?.[0]?.balance||0);
-    const tbody=$('s-rec-orders');const recent=(orders||[]).slice(0,5);
-    tbody.innerHTML=recent.length?recent.map(o=>`<tr><td>${o.product_name}</td><td>${o.buyer_name}</td><td style="font-weight:700">${fmt(o.price)}</td><td><span class="pill p-green">${o.status}</span></td><td>${fmtDate(o.created_at)}</td></tr>`).join(''):'<tr><td colspan="5" style="text-align:center;color:#888;padding:20px">No orders yet</td></tr>';
-  }catch(e){showToast(e.message)}
+    const rev = (orders || []).reduce((a, o) => a + o.price, 0);
+    $('st-rev').textContent = fmt(rev);
+    $('st-orders').textContent = (orders || []).length;
+    $('st-prods').textContent = (prods || []).length;
+    $('st-bal').textContent = fmt(bankRow?.[0]?.balance || 0);
+    const tbody = $('s-rec-orders');
+    const recent = (orders || []).slice(0, 5);
+    tbody.innerHTML = recent.length
+      ? recent.map(o =>
+          `<tr><td>${o.product_name}</td><td>${o.buyer_name}</td><td style="font-weight:700">${fmt(o.price)}</td><td><span class="pill p-green">${o.status}</span></td><td>${fmtDate(o.created_at)}</td></tr>`
+        ).join('')
+      : '<tr><td colspan="5" style="text-align:center;color:#888;padding:20px">No orders yet</td></tr>';
+  } catch(e) {
+    showToast(e.message);
+  }
 }
 
-async function loadSellerProducts(){
-  try{
-    const prods=await db('products?seller_account=eq.'+S.user.account_number+'&select=*&order=created_at.desc','GET');
-    const tbody=$('s-prods-tbl');
-    tbody.innerHTML=(prods||[]).length?prods.map(p=>`<tr><td><strong>${p.name}</strong></td><td>${p.category}</td><td>${fmt(p.price)}</td><td>${p.stock}</td><td><span class="stars">${stars(p.avg_rating)}</span> (${p.review_count})</td><td><span class="pill ${p.active?'p-green':'p-red'}">${p.active?'Active':'Paused'}</span></td><td><button class="edit-btn" onclick="toggleProd('${p.id}',${!p.active})">${p.active?'Pause':'Activate'}</button> <button class="del-btn" onclick="delProd('${p.id}')">Del</button></td></tr>`).join(''):'<tr><td colspan="7" style="text-align:center;color:#888;padding:20px">No products yet</td></tr>';
-  }catch(e){showToast(e.message)}
+async function loadSellerProducts() {
+  try {
+    const prods = await db('products?seller_account=eq.' + S.user.account_number + '&select=*&order=created_at.desc', 'GET');
+    const tbody = $('s-prods-tbl');
+    tbody.innerHTML = (prods || []).length
+      ? prods.map(p =>
+          `<tr><td><strong>${p.name}</strong></td><td>${p.category}</td><td>${fmt(p.price)}</td><td>${p.stock}</td><td><span class="stars">${stars(p.avg_rating)}</span> (${p.review_count})</td><td><span class="pill ${p.active ? 'p-green' : 'p-red'}">${p.active ? 'Active' : 'Paused'}</span></td><td><button class="edit-btn" onclick="toggleProd('${p.id}',${!p.active})">${p.active ? 'Pause' : 'Activate'}</button> <button class="del-btn" onclick="delProd('${p.id}')">Del</button></td></tr>`
+        ).join('')
+      : '<tr><td colspan="7" style="text-align:center;color:#888;padding:20px">No products yet</td></tr>';
+  } catch(e) {
+    showToast(e.message);
+  }
 }
 
-async function loadSellerOrders(){
-  try{
-    const orders=await db('orders?seller_account=eq.'+S.user.account_number+'&select=*&order=created_at.desc','GET');
-    const tbody=$('s-orders-tbl');
-    tbody.innerHTML=(orders||[]).length?orders.map(o=>`<tr><td style="font-family:monospace;font-size:11px">${o.order_id?.slice(-8)}</td><td>${o.product_name}</td><td>${o.buyer_name}</td><td style="font-weight:700">${fmt(o.price)}</td><td><select onchange="updOrderStatus('${o.id}',this.value)" style="font-size:11px;padding:3px 6px;border-radius:6px;border:1px solid #ddd;font-family:inherit"><option ${o.status==='confirmed'?'selected':''}>confirmed</option><option ${o.status==='shipped'?'selected':''}>shipped</option><option ${o.status==='delivered'?'selected':''}>delivered</option></select></td><td>${fmtDate(o.created_at)}</td></tr>`).join(''):'<tr><td colspan="6" style="text-align:center;color:#888;padding:20px">No orders yet</td></tr>';
-  }catch(e){showToast(e.message)}
+async function loadSellerOrders() {
+  try {
+    const orders = await db('orders?seller_account=eq.' + S.user.account_number + '&select=*&order=created_at.desc', 'GET');
+    const tbody = $('s-orders-tbl');
+    tbody.innerHTML = (orders || []).length
+      ? orders.map(o =>
+          `<tr><td style="font-family:monospace;font-size:11px">${o.order_id?.slice(-8)}</td><td>${o.product_name}</td><td>${o.buyer_name}</td><td style="font-weight:700">${fmt(o.price)}</td><td><select onchange="updOrderStatus('${o.id}',this.value)" style="font-size:11px;padding:3px 6px;border-radius:6px;border:1px solid #ddd;font-family:inherit"><option ${o.status === 'confirmed' ? 'selected' : ''}>confirmed</option><option ${o.status === 'shipped' ? 'selected' : ''}>shipped</option><option ${o.status === 'delivered' ? 'selected' : ''}>delivered</option></select></td><td>${fmtDate(o.created_at)}</td></tr>`
+        ).join('')
+      : '<tr><td colspan="6" style="text-align:center;color:#888;padding:20px">No orders yet</td></tr>';
+  } catch(e) {
+    showToast(e.message);
+  }
 }
 
-async function addProduct(){
-  const name=$('p-name').value.trim();const desc=$('p-desc').value.trim();
-  const price=parseInt($('p-price').value);const ogPrice=parseInt($('p-og-price').value)||null;
-  const stock=parseInt($('p-stock').value)||10;const cat=$('p-cat').value;const img=$('p-img').value.trim();
-  const ok=$('add-ok');const err=$('add-err');ok.style.display='none';err.style.display='none';
-  if(!name||!price){err.textContent='Name and price are required';err.style.display='block';return}
-  try{
-    await db('products','POST',{seller_account:S.user.account_number,name,description:desc,price,original_price:ogPrice,image_url:img||null,category:cat,stock,active:true,avg_rating:0,review_count:0});
-    ok.style.display='block';$('p-name').value='';$('p-desc').value='';$('p-price').value='';$('p-og-price').value='';$('p-stock').value='';$('p-img').value='';
-    loadProducts();showToast('Product listed!');setTimeout(()=>ok.style.display='none',3000);
-  }catch(e){err.textContent=e.message;err.style.display='block'}
+async function addProduct() {
+  const name = $('p-name').value.trim();
+  const desc = $('p-desc').value.trim();
+  const price = parseInt($('p-price').value);
+  const ogPrice = parseInt($('p-og-price').value) || null;
+  const stock = parseInt($('p-stock').value) || 10;
+  const cat = $('p-cat').value;
+  const img = $('p-img').value.trim();
+  const ok = $('add-ok');
+  const err = $('add-err');
+  ok.style.display = 'none';
+  err.style.display = 'none';
+  if (!name || !price) { err.textContent = 'Name and price are required'; err.style.display = 'block'; return; }
+  try {
+    await db('products', 'POST', {
+      seller_account: S.user.account_number,
+      name, description: desc, price,
+      original_price: ogPrice,
+      image_url: img || null,
+      category: cat, stock, active: true,
+      avg_rating: 0, review_count: 0
+    });
+    ok.style.display = 'block';
+    $('p-name').value = ''; $('p-desc').value = ''; $('p-price').value = '';
+    $('p-og-price').value = ''; $('p-stock').value = ''; $('p-img').value = '';
+    loadProducts();
+    showToast('Product listed!');
+    setTimeout(() => ok.style.display = 'none', 3000);
+  } catch(e) {
+    err.textContent = e.message;
+    err.style.display = 'block';
+  }
 }
 
-async function toggleProd(id,active){try{await db('products?id=eq.'+id,'PATCH',{active});loadSellerProducts();showToast(active?'Product activated':'Product paused')}catch(e){showToast(e.message)}}
-async function delProd(id){if(!confirm('Delete this product?'))return;try{await db('products?id=eq.'+id,'DELETE');loadSellerProducts();loadProducts();showToast('Deleted')}catch(e){showToast(e.message)}}
-async function updOrderStatus(id,status){try{await db('orders?id=eq.'+id,'PATCH',{status});showToast('Status: '+status)}catch(e){showToast(e.message)}}
+async function toggleProd(id, active) {
+  try {
+    await db('products?id=eq.' + id, 'PATCH', {active});
+    loadSellerProducts();
+    showToast(active ? 'Product activated' : 'Product paused');
+  } catch(e) {
+    showToast(e.message);
+  }
+}
+
+async function delProd(id) {
+  if (!confirm('Delete this product?')) return;
+  try {
+    await db('products?id=eq.' + id, 'DELETE');
+    loadSellerProducts();
+    loadProducts();
+    showToast('Deleted');
+  } catch(e) {
+    showToast(e.message);
+  }
+}
+
+async function updOrderStatus(id, status) {
+  try {
+    await db('orders?id=eq.' + id, 'PATCH', {status});
+    showToast('Status: ' + status);
+  } catch(e) {
+    showToast(e.message);
+  }
+}
 
 // ── BECOME SELLER ────────────────────────────────────────────
-function openBecomeSeller(){closeOv('ov-user');if(S.profile?.role==='seller'){goPage('sell')}else{goPage('become-seller')}}
-async function registerSeller(){
-  const sname=$('ns-name').value.trim();const sbio=$('ns-bio').value.trim();
-  const ok=$('seller-ok');const err=$('seller-err');ok.style.display='none';err.style.display='none';
-  if(!sname){err.textContent='Store name required';err.style.display='block';return}
-  try{
-    if(S.profile){await db('profiles?account_number=eq.'+S.user.account_number,'PATCH',{role:'seller',store_name:sname,store_bio:sbio});S.profile.role='seller';S.profile.store_name=sname;S.profile.store_bio=sbio}
-    else{const p=await db('profiles','POST',{account_number:S.user.account_number,role:'seller',store_name:sname,store_bio:sbio,email:''});S.profile=p[0]}
-    $('btn-sell').style.display='block';ok.style.display='block';showToast('Store created!');
-    setTimeout(()=>goPage('sell'),1500);
-  }catch(e){err.textContent=e.message;err.style.display='block'}
+function openBecomeSeller() {
+  closeOv('ov-user');
+  if (S.profile?.role === 'seller') { goPage('sell'); }
+  else { goPage('become-seller'); }
+}
+
+async function registerSeller() {
+  const sname = $('ns-name').value.trim();
+  const sbio = $('ns-bio').value.trim();
+  const ok = $('seller-ok');
+  const err = $('seller-err');
+  ok.style.display = 'none'; err.style.display = 'none';
+  if (!sname) { err.textContent = 'Store name required'; err.style.display = 'block'; return; }
+  try {
+    if (S.profile) {
+      await db('profiles?account_number=eq.' + S.user.account_number, 'PATCH', {
+        role: 'seller', store_name: sname, store_bio: sbio
+      });
+      S.profile.role = 'seller';
+      S.profile.store_name = sname;
+      S.profile.store_bio = sbio;
+    } else {
+      const p = await db('profiles', 'POST', {
+        account_number: S.user.account_number,
+        role: 'seller', store_name: sname, store_bio: sbio, email: ''
+      });
+      S.profile = p[0];
+    }
+    $('btn-sell').style.display = 'block';
+    ok.style.display = 'block';
+    showToast('Store created!');
+    setTimeout(() => goPage('sell'), 1500);
+  } catch(e) {
+    err.textContent = e.message;
+    err.style.display = 'block';
+  }
 }
 
 // ── CREATE ACCOUNT ────────────────────────────────────────────
-let caData={name:'',email:'',role:'buyer',storeName:'',storeBio:''};
+let caData = {name: '', email: '', role: 'buyer', storeName: '', storeBio: ''};
 
-function caReset(){
-  caData={name:'',email:'',role:'buyer',storeName:'',storeBio:''};
-  $('ca-step1').style.display='block';$('ca-step2').style.display='none';$('ca-step3').style.display='none';
-  $('cs1').className='cstep on';$('cs2').className='cstep';$('cs3').className='cstep';
-  $('ca-name').value='';$('ca-email').value='';$('ca-role').value='buyer';
-  $('ca-store-fields').style.display='none';$('ca-err1').style.display='none';
-  $('ca-accno').value='';$('ca-pin').value='';$('ca-pin2').value='';$('ca-err2').style.display='none';
+function caReset() {
+  caData = {name: '', email: '', role: 'buyer', storeName: '', storeBio: ''};
+  $('ca-step1').style.display = 'block';
+  $('ca-step2').style.display = 'none';
+  $('ca-step3').style.display = 'none';
+  $('cs1').className = 'cstep on';
+  $('cs2').className = 'cstep';
+  $('cs3').className = 'cstep';
+  $('ca-name').value = ''; $('ca-email').value = '';
+  $('ca-role').value = 'buyer';
+  $('ca-store-fields').style.display = 'none';
+  $('ca-err1').style.display = 'none';
+  $('ca-accno').value = ''; $('ca-pin').value = ''; $('ca-pin2').value = '';
+  $('ca-err2').style.display = 'none';
 }
 
-// Show/hide store fields when role changes
-document.addEventListener('DOMContentLoaded',()=>{$('ca-role')&&$('ca-role').addEventListener('change',()=>{$('ca-store-fields').style.display=$('ca-role').value!=='buyer'?'block':'none'})});
-
-function caNext1(){
-  const name=$('ca-name').value.trim();
-  const err=$('ca-err1');err.style.display='none';
-  if(!name){err.textContent='Please enter your full name';err.style.display='block';return}
-  caData.name=name;caData.email=$('ca-email').value.trim();
-  caData.role=$('ca-role').value;
-  caData.storeName=$('ca-store-name')?.value.trim()||'';
-  caData.storeBio=$('ca-store-bio')?.value.trim()||'';
-  $('ca-step1').style.display='none';$('ca-step2').style.display='block';
-  $('cs1').className='cstep done';$('cs2').className='cstep on';
+function caNext1() {
+  const name = $('ca-name').value.trim();
+  const err = $('ca-err1');
+  err.style.display = 'none';
+  if (!name) { err.textContent = 'Please enter your full name'; err.style.display = 'block'; return; }
+  caData.name = name;
+  caData.email = $('ca-email').value.trim();
+  caData.role = $('ca-role').value;
+  caData.storeName = $('ca-store-name')?.value.trim() || '';
+  caData.storeBio = $('ca-store-bio')?.value.trim() || '';
+  $('ca-step1').style.display = 'none';
+  $('ca-step2').style.display = 'block';
+  $('cs1').className = 'cstep done';
+  $('cs2').className = 'cstep on';
 }
 
-function caBack(){$('ca-step2').style.display='none';$('ca-step1').style.display='block';$('cs1').className='cstep on';$('cs2').className='cstep'}
-
-async function caCreate(){
-  const accno=$('ca-accno').value.trim().toUpperCase();
-  const pin=$('ca-pin').value.trim();const pin2=$('ca-pin2').value.trim();
-  const err=$('ca-err2');err.style.display='none';
-  if(!accno||accno.length<4){err.textContent='Account number must be 4–10 characters';err.style.display='block';return}
-  if(!/^[A-Z0-9]+$/.test(accno)){err.textContent='Only letters and numbers allowed';err.style.display='block';return}
-  if(!pin||pin.length!==4||isNaN(pin)){err.textContent='PIN must be exactly 4 digits';err.style.display='block';return}
-  if(pin!==pin2){err.textContent='PINs do not match';err.style.display='block';return}
-  try{
-    // Check if account exists
-    const exists=await db('bank_accounts?account_number=eq.'+accno+'&select=account_number','GET');
-    if(exists&&exists.length){err.textContent='Account number already taken. Try another.';err.style.display='block';return}
-    // Create bank account
-    await db('bank_accounts','POST',{account_number:accno,account_holder:caData.name,balance:10000,pin});
-    // Create profile
-    const isSeller=caData.role!=='buyer';
-    await db('profiles','POST',{account_number:accno,role:isSeller?'seller':'buyer',store_name:isSeller?caData.storeName||caData.name+"'s Store":null,store_bio:isSeller?caData.storeBio:null,email:caData.email});
-    // Add welcome notification
-    await db('notifications','POST',{account_number:accno,message:'Welcome to Abhinav\'s Market! Your account is ready with ₹10,000 starter balance. Happy shopping!',type:'welcome'}).catch(()=>{});
-    $('ca-done-acc').textContent=accno;$('ca-done-name').textContent=caData.name;
-    $('ca-step2').style.display='none';$('ca-step3').style.display='block';
-    $('cs2').className='cstep done';$('cs3').className='cstep on';
-    // Pre-fill login
-    $('l-acc').value=accno;$('ca-accno').value=accno;
-  }catch(e){err.textContent='Error: '+e.message;err.style.display='block'}
+function caBack() {
+  $('ca-step2').style.display = 'none';
+  $('ca-step1').style.display = 'block';
+  $('cs1').className = 'cstep on';
+  $('cs2').className = 'cstep';
 }
 
-function caLoginNow(){
-  closeOv('ov-login');
-  $('l-acc').value=$('ca-done-acc').textContent;
-  $('l-pin').value='';
+async function caCreate() {
+  const accno = $('ca-accno').value.trim().toUpperCase();
+  const pin = $('ca-pin').value.trim();
+  const pin2 = $('ca-pin2').value.trim();
+  const err = $('ca-err2');
+  err.style.display = 'none';
+  if (!accno || accno.length < 4) { err.textContent = 'Account number must be 4–10 characters'; err.style.display = 'block'; return; }
+  if (!/^[A-Z0-9]+$/.test(accno)) { err.textContent = 'Only letters and numbers allowed'; err.style.display = 'block'; return; }
+  if (!pin || pin.length !== 4 || isNaN(pin)) { err.textContent = 'PIN must be exactly 4 digits'; err.style.display = 'block'; return; }
+  if (pin !== pin2) { err.textContent = 'PINs do not match'; err.style.display = 'block'; return; }
+  try {
+    const exists = await db('bank_accounts?account_number=eq.' + accno + '&select=account_number', 'GET');
+    if (exists && exists.length) {
+      err.textContent = 'Account number already taken. Try another.';
+      err.style.display = 'block';
+      return;
+    }
+    await db('bank_accounts', 'POST', {
+      account_number: accno,
+      account_holder: caData.name,
+      balance: 10000,
+      pin
+    });
+    const isSeller = caData.role !== 'buyer';
+    await db('profiles', 'POST', {
+      account_number: accno,
+      role: isSeller ? 'seller' : 'buyer',
+      store_name: isSeller ? caData.storeName || caData.name + "'s Store" : null,
+      store_bio: isSeller ? caData.storeBio : null,
+      email: caData.email
+    });
+    await db('notifications', 'POST', {
+      account_number: accno,
+      message: "Welcome to Abhinav's Market! Your account is ready with ₹10,000 starter balance. Happy shopping!",
+      type: 'welcome'
+    }).catch(() => {});
+    $('ca-done-acc').textContent = accno;
+    $('ca-done-name').textContent = caData.name;
+    $('ca-step2').style.display = 'none';
+    $('ca-step3').style.display = 'block';
+    $('cs2').className = 'cstep done';
+    $('cs3').className = 'cstep on';
+    $('l-acc').value = accno;
+  } catch(e) {
+    err.textContent = 'Error: ' + e.message;
+    err.style.display = 'block';
+  }
+}
+
+function caLoginNow() {
+  const accno = $('ca-done-acc').textContent;
   goPage('market');
+  $('l-acc').value = accno;
+  $('l-pin').value = '';
   openLogin();
 }
 
 // ── INIT ─────────────────────────────────────────────────────
-// Add original_price column if not exists (safe to run)
-(async()=>{
-  try{await db('products?limit=1&select=original_price','GET')}
-  catch(e){console.log('Note: original_price column may not exist yet')}
-})();
-
 loadProducts();
 
 // Close overlays on outside click
-document.querySelectorAll('.overlay').forEach(ov=>{
-  ov.addEventListener('click',e=>{if(e.target===ov)closeOv(ov.id)});
+document.querySelectorAll('.overlay').forEach(ov => {
+  ov.addEventListener('click', e => { if (e.target === ov) closeOv(ov.id); });
 });
+</script>
+<script type="module">
+  // Import Firebase (v9 modular)
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getAuth, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
-// Role change listener
-setTimeout(()=>{
-  const roleSelect=$('ca-role');
-  if(roleSelect) roleSelect.addEventListener('change',()=>{
-    $('ca-store-fields').style.display=roleSelect.value!=='buyer'?'block':'none';
-  });
-},100);
+  // Your Firebase config (GET THIS FROM FIREBASE CONSOLE)
+  const firebaseConfig = {
+    apiKey: "YOUR_API_KEY",
+    authDomain: "YOUR_PROJECT.firebaseapp.com",
+    projectId: "YOUR_PROJECT_ID",
+    appId: "YOUR_APP_ID"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const provider = new GoogleAuthProvider();
+
+  // Make function global so your button can call it
+  window.signInWithGoogle = function () {
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        console.log("User:", result.user);
+        alert("Login successful: " + result.user.displayName);
+      })
+      .catch((error) => {
+        console.error(error);
+        alert(error.message);
+      });
+  };
 </script>
 </body>
 </html>
